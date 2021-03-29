@@ -25,6 +25,9 @@ const userSchema = new Schema({
   },
 })
 
+//==========================================
+// CUSTOM HOOKS
+//==========================================
 // Custom Model class function
 userSchema.statics.findAndValidate = async function (username, password) {
   const user = await this.findOne({ username })
@@ -33,7 +36,7 @@ userSchema.statics.findAndValidate = async function (username, password) {
   return isPwCorrect ? user : false
 }
 
-// Mongoose hook to convert password to a hashed passwor
+// Mongoose hook to convert password to a hashed password
 userSchema.pre("save", async function (next) {
   // only rehash PW if PW has been modified
   if (!this.isModified("password")) {
