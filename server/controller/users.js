@@ -32,7 +32,7 @@ module.exports.registerUser = async (req, res) => {
     }
   } catch (e) {
     console.log(e)
-    res.send({ error: e })
+    res.send({ error: "email / username already exists" })
   }
 }
 
