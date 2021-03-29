@@ -35,3 +35,30 @@ module.exports.registerUser = async (req, res) => {
     res.send({ error: e })
   }
 }
+
+// @ POST
+// @ Login user
+module.exports.loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body
+
+    const user = await User.findAndValidate(username, password)
+
+    if (user) {
+      // generate token
+      const accessToken = generateToken({
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+      })
+
+      // send back token
+      res.send({ accessToken })
+      return
+    }
+
+    res.send({ error: "Incorrect username or password" })
+  } catch (e) {
+    console.log(e)
+  }
+}
