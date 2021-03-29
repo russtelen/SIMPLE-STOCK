@@ -7,6 +7,10 @@ const session = require("express-session")
 const ExpressError = require("./utils/ExpressError")
 const { connectDb } = require("./models/db")
 
+//REQUIRE ROUTERS
+//------------
+const userRoutes = require("./routes/users")
+
 // ==========
 // CONFIG
 // ==========
@@ -39,9 +43,10 @@ connectDb()
 // ==========
 // ROUTES
 // ==========
-app.get("/", (req, res) => {
-  res.send({ message: "it works !!" })
-})
+
+// User ROUTES
+//-------------
+app.use("/api/users", userRoutes)
 
 //==============================================
 // Error Handlers
