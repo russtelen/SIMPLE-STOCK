@@ -11,7 +11,7 @@ let db = process.env.DB
 
 module.exports.connectDb = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/stealth-simple", {
+    await mongoose.connect(db, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
