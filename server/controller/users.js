@@ -11,25 +11,30 @@ const { generateToken } = require("../utils/jwt")
 // @ Create (register) user
 module.exports.registerUser = async (req, res) => {
   try {
+    // get body from form
     const { email, username, password } = req.body
+    // create new User (only username and email)
+    const user = await new User({ username, email })
+    // "register" user using .register()
+    const registeredUser = await User.register(user, password)
 
-    const user = new User({ email, username, password })
+    // login user
+    req.login(registeredUser, (err) => {
+      if (err) return next(err)
 
-    if (user) {
-      // save user
-      await user.save()
+      if (user) {
+        // generate token
+        const accessToken = generateToken({
+          _id: user._id,
+          email: user.email,
+          username: user.username,
+        })
 
-      // generate token
-      const accessToken = generateToken({
-        _id: user._id,
-        email: user.email,
-        username: user.username,
-      })
-
-      //   send back token
-      res.send({ accessToken })
-      return
-    }
+        // send back token
+        res.send({ accessToken })
+        return
+      }
+    })
   } catch (e) {
     console.log(e)
     res.send({ error: "email / username already exists" })
