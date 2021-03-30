@@ -11,6 +11,7 @@ import {
 import Login from '../components/Login';
 import Register from '../components/Register';
 import { loginUser, registerUser } from '../network';
+import FooterTabs from '../components/navigation/BottomTabNavigator';
 
 const renderTabBar = (props) => {
     props.tabStyle = Object.create(props.tabStyle);
@@ -75,6 +76,7 @@ const Auth = ({ setToken }) => {
                     </Tab>
                 </Tabs>
             </Content>
+            <FooterTabs />
         </Container>
     );
 };
