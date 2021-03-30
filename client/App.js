@@ -4,6 +4,7 @@ import Auth from "../client/src/screens/Auth"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import jwtDecode from "jwt-decode"
 import { NativeRouter, Route } from "react-router-native"
+import Dashboard from "./src/screens/Dashboard"
 
 export default function App() {
   const [user, setUser] = useState({})
@@ -37,7 +38,7 @@ export default function App() {
           <Auth setToken={setToken} name="Auth"></Auth>
         </Route>
         <Route exact path="/dashboard">
-          <Text>THIS IS OUR HOME PAGE</Text>
+          <Dashboard />
         </Route>
       </View>
     </NativeRouter>
