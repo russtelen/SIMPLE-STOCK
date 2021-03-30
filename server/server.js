@@ -3,7 +3,7 @@
 // ==========
 const express = require("express")
 const dotenv = require("dotenv")
-// const session = require("express-session")
+const session = require("express-session")
 const ExpressError = require("./utils/ExpressError")
 const { connectDb } = require("./models/db")
 // REQUIRE-AUTH
@@ -29,21 +29,21 @@ app.use(express.urlencoded({ extended: true })) // application/x-www-form-urlenc
 app.use(express.json()) // JSON
 
 // Express Session
-// const sessionConfig = {
-//   secret: process.env.SESSION,
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     httpOnly: true,
-//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // expires in 1 week
-//     maxAge: 1000 * 60 * 60 * 24 * 7,
-//   },
-// }
-// app.use(session(sessionConfig))
+const sessionConfig = {
+  secret: process.env.SESSION,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // expires in 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+}
+app.use(session(sessionConfig))
 
 // Passport/Auth
 app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
