@@ -57,6 +57,8 @@ module.exports.loginUser = async (req, res) => {
         _id: user._id,
         email: user.email,
         username: user.username,
+        cash: user.cash,
+        transactions: user.transactions,
       })
 
       // send back token
