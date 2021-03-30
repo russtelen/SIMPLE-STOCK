@@ -10,6 +10,7 @@ import {
 } from "native-base"
 import Login from "../components/Login"
 import Register from "../components/Register"
+import axios from "axios"
 
 const renderTabBar = (props) => {
   props.tabStyle = Object.create(props.tabStyle)
