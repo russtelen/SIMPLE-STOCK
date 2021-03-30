@@ -20,6 +20,8 @@ const renderTabBar = (props) => {
 const submitLogin = async (data) => {
   const token = await loginUser(data)
 
+  //   @TODO
+  //  Save this token to 'localStorage'
   console.log(token)
 }
 
