@@ -29,7 +29,7 @@ const Auth = ({ setToken }) => {
             setToken(token);
         }
         //  Then Redirect to home page
-        console.log(token);
+        // console.log(token);
     };
 
     //   Register Handler

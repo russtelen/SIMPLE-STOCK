@@ -7,7 +7,15 @@ export default function App() {
     const [token, setToken] = useState({});
 
     useEffect(() => {
-        AsyncStorage.setItem('token', JSON.stringify(token));
+        const storeToken = async () => {
+            try {
+                const jsonToken = JSON.stringify(token);
+                AsyncStorage.setItem('token', jsonToken);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        storeToken();
     }, [token]);
 
     return (
