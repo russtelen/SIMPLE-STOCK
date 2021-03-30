@@ -6,7 +6,11 @@ const dotenv = require("dotenv")
 const session = require("express-session")
 const ExpressError = require("./utils/ExpressError")
 const { connectDb } = require("./models/db")
-
+// REQUIRE-AUTH
+//---------------
+const passport = require("passport")
+const LocalStrategy = require("passport-local")
+const User = require("./models/Users")
 //REQUIRE ROUTERS
 //------------
 const userRoutes = require("./routes/users")
@@ -36,6 +40,13 @@ const sessionConfig = {
   },
 }
 app.use(session(sessionConfig))
+
+// Passport/Auth
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 // Connect to db
 connectDb()

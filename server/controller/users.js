@@ -11,28 +11,35 @@ const { generateToken } = require("../utils/jwt")
 // @ Create (register) user
 module.exports.registerUser = async (req, res) => {
   try {
+    // get body from form
     const { email, username, password } = req.body
+    // create new User (only username and email)
+    const user = new User({ username, email })
+    // "register" user using .register()
+    const registeredUser = await User.register(user, password)
 
-    const user = new User({ email, username, password })
+    // login user
+    req.login(registeredUser, (err) => {
+      if (err) return next(err)
 
-    if (user) {
-      // save user
-      await user.save()
+      const user = req.user
 
-      // generate token
-      const accessToken = generateToken({
-        _id: user._id,
-        email: user.email,
-        username: user.username,
-      })
+      if (user) {
+        // generate token
+        const accessToken = generateToken({
+          _id: user._id,
+          email: user.email,
+          username: user.username,
+        })
 
-      //   send back token
-      res.send({ accessToken })
-      return
-    }
+        // send back token
+        res.send({ accessToken })
+        return
+      }
+    })
   } catch (e) {
     console.log(e)
-    res.send({ error: "email / username already exists" })
+    res.send({ error: e.message })
   }
 }
 
@@ -40,10 +47,7 @@ module.exports.registerUser = async (req, res) => {
 // @ Login user
 module.exports.loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body
-
-    const user = await User.findAndValidate(username, password)
-
+    const user = req.user
     if (user) {
       // generate token
       const accessToken = generateToken({
@@ -56,9 +60,17 @@ module.exports.loginUser = async (req, res) => {
       res.send({ accessToken })
       return
     }
-
     res.send({ error: "Incorrect username or password" })
   } catch (e) {
     console.log(e)
+    res.send({ error: "Incorrect username or password" })
   }
+}
+
+// @ POST
+// @ Logout user
+module.exports.logoutUser = (req, res) => {
+  req.logout()
+  req.session.destroy()
+  res.send({ message: "Successfully logged out" })
 }
