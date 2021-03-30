@@ -22,20 +22,20 @@ export default class Auth extends Component {
     render() {
         return (
             <Container>
-                <Header hasTabs />
+                {/* <Header hasTabs style={{backgroundColor: '#F26F20'}}/> */}
                 <Tabs renderTabBar={renderTabBar}>
                     <Tab 
                         heading={
-                            <TabHeading>
-                                <Text>Login</Text>
+                            <TabHeading style={{backgroundColor: '#F26F20'}} >
+                                <Text >Login</Text>
                             </TabHeading>
                         }
                     >
                         <Login />
                     </Tab>
-                    <Tab
+                    <Tab 
                         heading={
-                            <TabHeading>
+                            <TabHeading style={{backgroundColor: '#F26F20'}}>
                                 <Text>Register</Text>
                             </TabHeading>
                         }
