@@ -26,7 +26,7 @@ const Auth = ({ setToken }) => {
         //  @TODO
         //  Save this token to 'localStorage'
         if (token) {
-            setToken(token);
+            setToken(token.accessToken);
         }
         //  Then Redirect to home page
         // console.log(token);
@@ -44,7 +44,7 @@ const Auth = ({ setToken }) => {
         //  @TODO
         //  Save this token to 'localStorage'
         if (token) {
-            setToken(token);
+            setToken(token.accessToken);
         }
         //  Then Redirect to home page
         // console.log(token);

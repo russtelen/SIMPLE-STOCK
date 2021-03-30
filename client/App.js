@@ -4,7 +4,7 @@ import Auth from '../client/src/screens/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
-    const [token, setToken] = useState({});
+    const [token, setToken] = useState('');
 
     useEffect(() => {
         const storeToken = async () => {
@@ -16,11 +16,11 @@ export default function App() {
             }
         };
         storeToken();
+        console.log(token);
     }, [token]);
 
     return (
         <View style={styles.container}>
-            {console.log(token)}
             <Auth setToken={setToken} name="Auth"></Auth>
         </View>
     );
