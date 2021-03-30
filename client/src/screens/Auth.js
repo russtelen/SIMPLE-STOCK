@@ -11,6 +11,7 @@ import {
 import Login from "../components/Login"
 import Register from "../components/Register"
 import { loginUser, registerUser } from "../network"
+import { useHistory } from "react-router-native"
 
 const renderTabBar = (props) => {
   props.tabStyle = Object.create(props.tabStyle)
@@ -18,6 +19,8 @@ const renderTabBar = (props) => {
 }
 
 const Auth = ({ setToken }) => {
+  const history = useHistory()
+
   // Handlers
   //-----------------------------------
   //   Login handler
@@ -28,6 +31,7 @@ const Auth = ({ setToken }) => {
       // save token to local storage
       setToken(token.accessToken)
       //  Then Redirect to home page
+      history.push("/dashboard")
     }
   }
 
