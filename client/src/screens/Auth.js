@@ -17,15 +17,21 @@ const renderTabBar = (props) => {
   return <DefaultTabBar {...props} />
 }
 
-const submitLogin = async (data) => {
-  const token = await loginUser(data)
-
-  //   @TODO
-  //  Save this token to 'localStorage'
-  console.log(token)
-}
-
 const Auth = () => {
+  // Handlers
+  //-----------------------------------
+  //   Login handler
+  const submitLogin = async (data) => {
+    const token = await loginUser(data)
+
+    //  @TODO
+    //  Save this token to 'localStorage'
+    //  Then Redirect to home pag
+    console.log(token)
+  }
+
+  //   Register Handler
+
   return (
     <Container>
       <Content>
