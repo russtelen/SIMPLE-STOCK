@@ -14,13 +14,15 @@ module.exports.registerUser = async (req, res) => {
     // get body from form
     const { email, username, password } = req.body
     // create new User (only username and email)
-    const user = await new User({ username, email })
+    const user = new User({ username, email })
     // "register" user using .register()
     const registeredUser = await User.register(user, password)
 
     // login user
     req.login(registeredUser, (err) => {
       if (err) return next(err)
+
+      const user = req.user
 
       if (user) {
         // generate token
@@ -37,7 +39,7 @@ module.exports.registerUser = async (req, res) => {
     })
   } catch (e) {
     console.log(e)
-    res.send({ error: "email / username already exists" })
+    res.send({ error: e.message })
   }
 }
 
@@ -45,10 +47,7 @@ module.exports.registerUser = async (req, res) => {
 // @ Login user
 module.exports.loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body
-
-    const user = await User.findAndValidate(username, password)
-
+    const user = req.user
     if (user) {
       // generate token
       const accessToken = generateToken({
@@ -61,9 +60,9 @@ module.exports.loginUser = async (req, res) => {
       res.send({ accessToken })
       return
     }
-
     res.send({ error: "Incorrect username or password" })
   } catch (e) {
     console.log(e)
+    res.send({ error: "Incorrect username or password" })
   }
 }
