@@ -30,7 +30,7 @@ const Auth = ({ setToken }) => {
     if (token.accessToken) {
       // save token to local storage
       setToken(token.accessToken)
-      //  Then Redirect to home page
+      //  Then Redirect to dashboard page
       history.push("/dashboard")
     }
   }
@@ -47,7 +47,8 @@ const Auth = ({ setToken }) => {
     if (token.accessToken) {
       // save token to local storage
       setToken(token.accessToken)
-      //  Then Redirect to home page
+      // Then Redirect to dashboard page
+      history.push("/dashboard")
     }
   }
 
