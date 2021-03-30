@@ -8,52 +8,73 @@ import {
   View,
 } from "react-native"
 
-export default function Register({ navigation }) {
+export default function Register({ navigation, submitRegister }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [email, setEmail] = useState("")
+
+  const handleRegister = () => {
+    if (confirmPassword != password) {
+      alert("Passwords don't match")
+      return
+    }
+
+    submitRegister({ email, username, password })
+    setUsername("")
+    setEmail("")
+    setPassword("")
+    setConfirmPassword("")
+  }
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../images/logo.png")} />
       <TextInput
         style={styles.input}
-        placeholder=" Username"
-        onChangeText={(text) => setUsername(text)}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder=" Password"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-      />
-      <TextInput
-        style={styles.input}
+        autoCapitalize="none"
         placeholder=" Email"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
       <TextInput
         style={styles.input}
+        autoCapitalize="none"
+        placeholder=" Username"
+        onChangeText={(text) => setUsername(text)}
+        value={username}
+      />
+      <TextInput
+        style={styles.input}
+        autoCapitalize="none"
+        placeholder=" Password"
+        secureTextEntry={true}
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+      />
+      <TextInput
+        style={styles.input}
+        autoCapitalize="none"
         placeholder=" Confirm Password"
+        secureTextEntry={true}
         onChangeText={(text) => setConfirmPassword(text)}
         value={confirmPassword}
       />
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate("Search", { screen: "SearchScreen" })
+          handleRegister()
+          //   navigation.navigate("Search", { screen: "SearchScreen" })
         }}
       >
         <Text>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
+          handleRegister()
           navigation.navigate("Login")
         }}
-      ></TouchableOpacity>
+      ></TouchableOpacity> */}
     </View>
   )
 }

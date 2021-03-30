@@ -26,11 +26,14 @@ const Auth = () => {
 
     //  @TODO
     //  Save this token to 'localStorage'
-    //  Then Redirect to home pag
+    //  Then Redirect to home page
     console.log(token)
   }
 
   //   Register Handler
+  const submitRegister = async (data) => {
+    console.log(data)
+  }
 
   return (
     <Container>
@@ -53,7 +56,7 @@ const Auth = () => {
               </TabHeading>
             }
           >
-            <Register />
+            <Register submitRegister={submitRegister} />
           </Tab>
         </Tabs>
       </Content>
