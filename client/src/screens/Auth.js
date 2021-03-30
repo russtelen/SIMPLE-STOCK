@@ -16,6 +16,10 @@ const renderTabBar = (props) => {
   return <DefaultTabBar {...props} />
 }
 
+const submitLogin = (data) => {
+  console.log(data)
+}
+
 const Auth = () => {
   return (
     <Container>
@@ -29,7 +33,7 @@ const Auth = () => {
               </TabHeading>
             }
           >
-            <Login />
+            <Login submitLogin={submitLogin} />
           </Tab>
           <Tab
             heading={

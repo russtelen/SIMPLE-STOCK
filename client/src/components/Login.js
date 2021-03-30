@@ -8,9 +8,15 @@ import {
   TouchableOpacity,
 } from "react-native"
 
-export default function Login({ navigation }) {
+export default function Login({ navigation, submitLogin }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+
+  const handleLogin = () => {
+    submitLogin({ username, password })
+    setUsername("")
+    setPassword("")
+  }
 
   return (
     <View style={styles.container}>
@@ -18,21 +24,20 @@ export default function Login({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder=" Username"
+        autoCapitalize="none"
         onChangeText={(text) => setUsername(text)}
         value={username}
       />
       <TextInput
         style={styles.input}
+        type="password"
+        autoCapitalize="none"
+        secureTextEntry={true}
         placeholder=" Password"
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <TouchableOpacity
-        style={styles.button}
-        // onPress={() => {
-
-        // }}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text>Login</Text>
       </TouchableOpacity>
     </View>
