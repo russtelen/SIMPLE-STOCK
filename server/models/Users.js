@@ -23,7 +23,7 @@ const userSchema = new Schema({
     symbol: String,
     numShares: Number,
     quotePrice: Number,
-    transactionDate: Date,
+    transactionDateTime: Date,
   }]
 })
 
