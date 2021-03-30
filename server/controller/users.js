@@ -66,3 +66,11 @@ module.exports.loginUser = async (req, res) => {
     res.send({ error: "Incorrect username or password" })
   }
 }
+
+// @ POST
+// @ Logout user
+module.exports.logoutUser = (req, res) => {
+  req.logout()
+  req.session.destroy()
+  res.send({ message: "Successfully logged out" })
+}
