@@ -3,7 +3,7 @@
 // ==========
 const express = require("express")
 const dotenv = require("dotenv")
-const session = require("express-session")
+// const session = require("express-session")
 const ExpressError = require("./utils/ExpressError")
 const { connectDb } = require("./models/db")
 // REQUIRE-AUTH
