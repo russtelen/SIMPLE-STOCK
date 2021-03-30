@@ -10,15 +10,17 @@ import {
 } from "native-base"
 import Login from "../components/Login"
 import Register from "../components/Register"
-import axios from "axios"
+import { loginUser } from "../network"
 
 const renderTabBar = (props) => {
   props.tabStyle = Object.create(props.tabStyle)
   return <DefaultTabBar {...props} />
 }
 
-const submitLogin = (data) => {
-  console.log(data)
+const submitLogin = async (data) => {
+  const token = await loginUser(data)
+
+  console.log(token)
 }
 
 const Auth = () => {
