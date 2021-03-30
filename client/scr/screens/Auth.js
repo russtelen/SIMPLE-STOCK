@@ -7,28 +7,35 @@ import {
     TabHeading,
     Icon,
     Text,
+    DefaultTabBar
 } from 'native-base';
 import Login from '../components/Login';
 import Register from '../components/Register';
+
+
+const renderTabBar = (props) => {
+  props.tabStyle = Object.create(props.tabStyle);
+  return <DefaultTabBar {...props} />;
+};
 
 export default class Auth extends Component {
     render() {
         return (
             <Container>
-                <Header hasTabs />
-                <Tabs>
-                    <Tab
+                {/* <Header hasTabs style={{backgroundColor: '#F26F20'}}/> */}
+                <Tabs renderTabBar={renderTabBar}>
+                    <Tab 
                         heading={
-                            <TabHeading>
-                                <Text>Login</Text>
+                            <TabHeading style={{backgroundColor: '#F26F20'}} >
+                                <Text >Login</Text>
                             </TabHeading>
                         }
                     >
                         <Login />
                     </Tab>
-                    <Tab
+                    <Tab 
                         heading={
-                            <TabHeading>
+                            <TabHeading style={{backgroundColor: '#F26F20'}}>
                                 <Text>Register</Text>
                             </TabHeading>
                         }
