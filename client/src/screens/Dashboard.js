@@ -1,5 +1,6 @@
 import React from "react"
 import { Text, View, Image } from "react-native"
+import { Link } from "react-router-native"
 
 const Dashboard = () => {
   return (
@@ -17,6 +18,9 @@ const Dashboard = () => {
           height: 400,
         }}
       />
+      <Link to="/">
+        <Text>Logout</Text>
+      </Link>
     </View>
   )
 }
