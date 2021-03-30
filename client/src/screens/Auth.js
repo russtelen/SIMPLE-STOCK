@@ -10,7 +10,7 @@ import {
 } from "native-base"
 import Login from "../components/Login"
 import Register from "../components/Register"
-import { loginUser } from "../network"
+import { loginUser, registerUser } from "../network"
 
 const renderTabBar = (props) => {
   props.tabStyle = Object.create(props.tabStyle)
@@ -32,7 +32,17 @@ const Auth = () => {
 
   //   Register Handler
   const submitRegister = async (data) => {
-    console.log(data)
+    const token = await registerUser(data)
+
+    if (token.error) {
+      alert(token.error)
+      return
+    }
+
+    //  @TODO
+    //  Save this token to 'localStorage'
+    //  Then Redirect to home page
+    console.log(token)
   }
 
   return (
