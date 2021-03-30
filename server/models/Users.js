@@ -14,6 +14,17 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  // tQ: cash to make purchases
+  cash: Number,
+  // tQ: this would hold all the user's transactions; 
+  //     calculating the sum by symbol would give the current portfolio/
+  //     portfolio positions can also be calculated
+  transactions: [{
+    symbol: String,
+    numShares: Number,
+    quotePrice: Number,
+    transactionDate: Date,
+  }]
 })
 
 // this plugin adds a username, hash and salt field to store the username, the hashed password and the salt value.
