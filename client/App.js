@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Auth from '../client/src/screens/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
 
 export default function App() {
+    const [user, setUser] = useState({});
     const [token, setToken] = useState('');
 
+    //store token to async storage
     useEffect(() => {
         const storeToken = async () => {
             try {
@@ -17,6 +20,13 @@ export default function App() {
         };
         storeToken();
         console.log(token);
+    }, [token]);
+
+    //getting user info
+    useEffect(() => {
+        const user = token ? jwtDecode(token) : null;
+        setUser(user);
+        console.log(user);
     }, [token]);
 
     return (
