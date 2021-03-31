@@ -7,6 +7,7 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
+import FooterTabs from './navigation/FooterTabs';
 
 export default function Login({ submitLogin }) {
     const [username, setUsername] = useState('');
@@ -40,6 +41,7 @@ export default function Login({ submitLogin }) {
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.bottonText}>Login</Text>
             </TouchableOpacity>
+            <FooterTabs />
         </View>
     );
 }
