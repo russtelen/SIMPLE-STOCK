@@ -26,13 +26,17 @@ const Auth = ({ setToken }) => {
   //-----------------------------------
   //   Login handler
   const submitLogin = async (data) => {
-    const token = await loginUser(data)
+    try {
+      const token = await loginUser(data)
 
-    if (token.accessToken) {
-      // save token to local storage
-      setToken(token.accessToken)
-      //  Then Redirect to dashboard page
-      history.push("/dashboard")
+      if (token.accessToken) {
+        // save token to local storage
+        setToken(token.accessToken)
+        //  Then Redirect to dashboard page
+        history.push("/dashboard")
+      }
+    } catch (e) {
+      alert("Incorrect username/password")
     }
   }
 
