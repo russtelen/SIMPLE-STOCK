@@ -19,28 +19,42 @@ connectDb()
 
 const seedDb = async () => {
   await User.deleteMany({});
+  console.log("seeding users")
 
   // Create new users
   //-------------------
-  const user1 = await new User({
-    email: "russ@gmail.com",
+  const user1 = new User({
+    email: "mahboiruss@gmail.com",
     username: "russ",
-    cash: 50000,
-    transactions:[
-      {
-        symbol: "AAPL",
-        numShares: 31,
-        quotePrice: -206.1,
-        transactionDateTime: 1596589501,
-      }
-    ]
+    initialCash: 50000,
+    transactions:[]
   })
-  const user2 = await new User({
-    email: "gabi@gmail.com",
+  const user2 = new User({
+    email: "mahsistagabi@gmail.com",
     username: "gabi",
-    cash: 50000,
-    transactions:[
-      {
+    initialCash: 50000,
+    transactions:[]
+  })
+
+  await User.register(user1, "password")
+  await User.updateOne(
+    { _id: user1 },
+    { $push: { transactions: 
+    {
+      symbol: "AAPL",
+      numShares: 31,
+      quotePrice: -206.1,
+      transactionDateTime: 1596589501,
+    } }
+  })
+
+  await User.register(user2, "password")
+  
+  await User.updateOne(
+    { _id: user2 },
+    { $push: { transactions: 
+    
+      { $each: [{
         symbol: "TSLA",
         numShares: 325,
         quotePrice: -1.1,
@@ -51,11 +65,12 @@ const seedDb = async () => {
         numShares: 325,
         quotePrice: 362.1,
         transactionDateTime: 1617145438869,
-      }
-    ]
-  })
-  await User.register(user1, "password")
-  await User.register(user2, "password")
+      }]
+    }
+  }}
+  )
+
+  console.log("users seeded ")
 }
 
 ;(async () => {

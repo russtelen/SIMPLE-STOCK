@@ -31,7 +31,7 @@ module.exports.registerUser = async (req, res) => {
           _id: user._id,
           email: user.email,
           username: user.username,
-          cash: user.cash,
+          initialCash: user.initialCash,
           transactions: user.transactions,
         })
 
@@ -57,7 +57,7 @@ module.exports.loginUser = async (req, res) => {
         _id: user._id,
         email: user.email,
         username: user.username,
-        cash: user.cash,
+        initialCash: user.initialCash,
         transactions: user.transactions,
       })
 
