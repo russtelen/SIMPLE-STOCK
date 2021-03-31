@@ -12,6 +12,7 @@ import Login from "../components/Login"
 import Register from "../components/Register"
 import { loginUser, registerUser } from "../network"
 import { useHistory } from "react-router-native"
+import Header from "../components/Header"
 
 const renderTabBar = (props) => {
   props.tabStyle = Object.create(props.tabStyle)
@@ -25,13 +26,17 @@ const Auth = ({ setToken }) => {
   //-----------------------------------
   //   Login handler
   const submitLogin = async (data) => {
-    const token = await loginUser(data)
+    try {
+      const token = await loginUser(data)
 
-    if (token.accessToken) {
-      // save token to local storage
-      setToken(token.accessToken)
-      //  Then Redirect to dashboard page
-      history.push("/dashboard")
+      if (token.accessToken) {
+        // save token to local storage
+        setToken(token.accessToken)
+        //  Then Redirect to dashboard page
+        history.push("/dashboard")
+      }
+    } catch (e) {
+      alert("Incorrect username/password")
     }
   }
 
@@ -54,13 +59,16 @@ const Auth = ({ setToken }) => {
 
   return (
     <Container>
-      <Content>
-        {/* <Header hasTabs style={{ backgroundColor: "#F26F20" }} /> */}
-        <Tabs renderTabBar={renderTabBar}>
+      <Content contentContainerStyle={{ flex: 1 }}>
+        <Header hasTabs />
+        <Tabs
+          renderTabBar={renderTabBar}
+          tabBarUnderlineStyle={{ backgroundColor: "#FFFF" }}
+        >
           <Tab
             heading={
               <TabHeading style={{ backgroundColor: "#F26F20" }}>
-                <Text>Login</Text>
+                <Text style={{ color: "#FFFF" }}>Login</Text>
               </TabHeading>
             }
           >
@@ -69,7 +77,7 @@ const Auth = ({ setToken }) => {
           <Tab
             heading={
               <TabHeading style={{ backgroundColor: "#F26F20" }}>
-                <Text>Register</Text>
+                <Text style={{ color: "#FFFF" }}>Register</Text>
               </TabHeading>
             }
           >

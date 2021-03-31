@@ -5,6 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import jwtDecode from "jwt-decode"
 import { NativeRouter, Route } from "react-router-native"
 import Dashboard from "./src/screens/Dashboard"
+import Account from "./src/screens/Account"
+import Header from "./src/components/Header"
+import FooterTabs from "./src/components/navigation/FooterTabs"
 
 export default function App() {
   const [user, setUser] = useState({})
@@ -33,14 +36,26 @@ export default function App() {
 
   return (
     <NativeRouter>
-      <View style={styles.container}>
-        <Route exact path="/">
-          <Auth setToken={setToken} name="Auth"></Auth>
-        </Route>
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
-      </View>
+      {token ? (
+        <>
+          <Header />
+
+          <Route exact path="/dashboard">
+            <Dashboard />
+          </Route>
+          <Route exact path="/account">
+            <Account user={user} setToken={setToken} />
+          </Route>
+
+          <FooterTabs />
+        </>
+      ) : (
+        <View style={styles.container}>
+          <Route exact path="/">
+            <Auth setToken={setToken} name="Auth" />
+          </Route>
+        </View>
+      )}
     </NativeRouter>
   )
 }
