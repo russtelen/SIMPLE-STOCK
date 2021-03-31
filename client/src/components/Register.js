@@ -64,7 +64,6 @@ export default function Register({ navigation, submitRegister }) {
                 style={styles.button}
                 onPress={() => {
                     handleRegister();
-                    //   navigation.navigate("Search", { screen: "SearchScreen" })
                 }}
             >
                 <Text>Sign Up</Text>
