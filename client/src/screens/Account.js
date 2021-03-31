@@ -10,6 +10,7 @@ const Account = ({ user, setToken }) => {
     setToken(null)
     history.push("/")
   }
+
   return (
     <Container style={styles.container}>
       <Content
