@@ -23,13 +23,13 @@ const seedDb = async () => {
 
   // Create new users
   //-------------------
-  const user1 = new User({
+  let user1 = new User({
     email: "mahboiruss@gmail.com",
     username: "russ",
     initialCash: 50000,
     transactions:[]
   })
-  const user2 = new User({
+  let user2 = new User({
     email: "mahsistagabi@gmail.com",
     username: "gabi",
     initialCash: 50000,
@@ -70,7 +70,7 @@ const seedDb = async () => {
   }}
   )
 
-  console.log("users seeded; user1 cash: " + user1.cash)
+  console.log("users seeded; user1 cash: " + user1.email)
 }
 
 ;(async () => {
