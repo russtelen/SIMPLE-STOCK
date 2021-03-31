@@ -6,7 +6,6 @@ import jwtDecode from 'jwt-decode';
 import { NativeRouter, Route } from 'react-router-native';
 import Dashboard from './src/screens/Dashboard';
 import Account from './src/screens/Account';
-import Header from './src/components/Header';
 import * as Font from 'expo-font';
 
 export default function App() {
@@ -34,6 +33,7 @@ export default function App() {
         console.log(user);
     }, [token]);
 
+    //get Roboto font for native base
     useEffect(() => {
         (async () =>
             await Font.loadAsync({

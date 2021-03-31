@@ -1,14 +1,6 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
-import { Link } from 'react-router-native';
-import {
-    Container,
-    Content,
-    Footer,
-    FooterTab,
-    Button,
-    Icon,
-} from 'native-base';
+import { Text, Image } from 'react-native';
+import { Container, Content } from 'native-base';
 import FooterTabs from '../components/navigation/FooterTabs';
 import Header from '../components/Header';
 

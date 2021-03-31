@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-export default function Login({ navigation, submitLogin }) {
+export default function Login({ submitLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
