@@ -39,7 +39,7 @@ export default function App() {
                     <Auth setToken={setToken} name="Auth"></Auth>
                 </Route>
                 <Route exact path="/dashboard">
-                    <Dashboard />
+                    <Dashboard user={user} />
                 </Route>
                 <Route path="/account">
                     <Account user={user} />
