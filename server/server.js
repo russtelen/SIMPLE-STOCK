@@ -50,7 +50,7 @@ passport.deserializeUser(User.deserializeUser())
 
 // Connect to db
 connectDb()
-require('./seeds')
+
 // ==========
 // ROUTES
 // ==========

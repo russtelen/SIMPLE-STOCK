@@ -4,16 +4,11 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const passportLocalMongoose = require("passport-local-mongoose")
+const transactionModel = require("./Transactions")
 
 //==========================================
 // SET UP SCHEMA
 //==========================================
-const transactionSchema = new Schema({
-  symbol: { type: String },
-  numShares: { type: Number },
-  quotePrice: { type: Number },
-  transactionDateTime: { type : Date, default : Date.now },
-})
 const userSchema = new Schema({
   email: {
     type: String,
@@ -25,7 +20,7 @@ const userSchema = new Schema({
   // tQ: this would hold all the user's transactions; 
   //     calculating the sum by symbol would give the current portfolio/
   //     portfolio positions can also be calculated
-  transactions: [transactionSchema]
+  transactions: [transactionModel.schema]
 })
 
 userSchema.virtual('cash')
