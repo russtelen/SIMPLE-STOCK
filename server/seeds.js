@@ -18,7 +18,60 @@ connectDb()
 //=============================
 
 const seedDb = async () => {
-  await User.deleteMany({})
+  await User.deleteMany({});
+  console.log("seeding users")
+
+  // Create new users
+  //-------------------
+  let user1 = new User({
+    email: "mahboiruss@gmail.com",
+    username: "russ",
+    initialCash: 50000,
+    transactions:[]
+  })
+  let user2 = new User({
+    email: "mahsistagabi@gmail.com",
+    username: "gabi",
+    initialCash: 50000,
+    transactions:[]
+  })
+
+  await User.register(user1, "password")
+  await User.updateOne(
+    { _id: user1 },
+    { $push: { transactions: 
+    {
+      symbol: "AAPL",
+      numShares: 31,
+      quotePrice: -206.1,
+      transactionDateTime: 1596589501,
+    } }
+  })
+
+  await User.register(user2, "password")
+  
+  await User.updateOne(
+    { _id: user2 },
+    { $push: { transactions: 
+    
+      { $each: [{
+        symbol: "TSLA",
+        numShares: 325,
+        quotePrice: -1.1,
+        transactionDateTime: 1596589520,
+      },
+      {
+        symbol: "TSLA",
+        numShares: 325,
+        quotePrice: 362.1,
+        transactionDateTime: 1617145438869,
+      }]
+    }
+  }}
+  )
+
+  const user1Updated = await User.findOne({ 'username': 'russ' });
+  console.log("users seeded; user1 cash: " + user1Updated.email)
 }
 
 ;(async () => {
