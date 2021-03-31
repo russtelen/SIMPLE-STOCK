@@ -15,7 +15,7 @@ const userSchema = new Schema({
     unique: true,
   },
   // tQ: cash to make purchases
-  cash: Number,
+  initialCash: Number,
   // tQ: this would hold all the user's transactions; 
   //     calculating the sum by symbol would give the current portfolio/
   //     portfolio positions can also be calculated
@@ -25,6 +25,13 @@ const userSchema = new Schema({
     quotePrice: Number,
     transactionDateTime: Date,
   }]
+})
+
+userSchema.virtual('cash')
+.get(() => {
+  return this.cash + this.transactions.map(
+    t => t.numShares * t.quotePrice
+  )
 })
 
 // this plugin adds a username, hash and salt field to store the username, the hashed password and the salt value.
