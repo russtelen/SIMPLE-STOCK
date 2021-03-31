@@ -70,7 +70,7 @@ const seedDb = async () => {
   }}
   )
 
-  console.log("users seeded ")
+  console.log("users seeded; user1 cash: " + user1.cash)
 }
 
 ;(async () => {

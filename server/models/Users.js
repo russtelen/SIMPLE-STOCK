@@ -29,9 +29,8 @@ const userSchema = new Schema({
 
 userSchema.virtual('cash')
 .get(() => {
-  return this.cash + this.transactions.map(
-    t => t.numShares * t.quotePrice
-  )
+  const ts = this.transactions.map(item => (item.quotePrice * item.numShares)).reduce((prev, next) => prev + next)
+  return this.initialCash + ts
 })
 
 // this plugin adds a username, hash and salt field to store the username, the hashed password and the salt value.
