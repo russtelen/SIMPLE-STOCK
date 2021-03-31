@@ -7,6 +7,15 @@ const { generateToken } = require("../utils/jwt")
 // =============================================
 // Logic
 // =============================================
+// @ GET
+// @ User Financial Data
+module.exports.getUserData = async (req, res) => {
+  const userId = req.userData._id
+  const user = await User.findById(userId)
+
+  res.send({ user })
+}
+
 // @ POST
 // @ Create (register) user
 module.exports.registerUser = async (req, res) => {
