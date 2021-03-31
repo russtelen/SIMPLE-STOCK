@@ -27,3 +27,15 @@ export const registerUser = async (data) => {
     console.log(e)
   }
 }
+
+export const logoutUser = async () => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: "https://stealth-simple.herokuapp.com/api/users/logout",
+    })
+    return res.data
+  } catch (e) {
+    console.log(e)
+  }
+}

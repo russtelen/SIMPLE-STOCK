@@ -2,13 +2,19 @@ import React from "react"
 import { TouchableOpacity, StyleSheet } from "react-native"
 import { Container, Content, Text } from "native-base"
 import { useHistory } from "react-router-native"
+import { logoutUser } from "../network"
 
 const Account = ({ user, setToken }) => {
   const history = useHistory()
 
-  async function handleLogOut() {
-    setToken(null)
-    history.push("/")
+  const handleLogOut = async () => {
+    const res = await logoutUser()
+
+    if (res) {
+      setToken(null)
+      history.push("/")
+      alert(res.message)
+    }
   }
 
   return (
