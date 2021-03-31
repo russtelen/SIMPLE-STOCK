@@ -5,7 +5,6 @@ import { Container, Content, Button, Text } from 'native-base';
 import FooterTabs from '../components/navigation/FooterTabs';
 import Header from '../components/Header';
 import { useHistory } from 'react-router-native';
-// import RouterButton from 'react-router-native-button';
 
 const Account = ({ user }) => {
     const history = useHistory();
@@ -30,7 +29,7 @@ const Account = ({ user }) => {
                         handleLogOut();
                     }}
                 >
-                    <Text>LogOut</Text>
+                    <Text style={styles.buttonText}>LogOut</Text>
                 </TouchableOpacity>
             </Content>
             <FooterTabs />
@@ -48,6 +47,9 @@ const styles = StyleSheet.create({
         margin: '10%',
         width: 200,
         borderRadius: 5,
+    },
+    buttonText: {
+        color: '#FFFF',
     },
     text: {
         textAlign: 'center',
