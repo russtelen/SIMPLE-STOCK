@@ -1,40 +1,31 @@
 import React, { Component } from 'react';
-import {
-    Container,
-    Header,
-    Content,
-    Footer,
-    FooterTab,
-    Button,
-    Icon,
-} from 'native-base';
-import { Text } from 'react-native';
+import { Footer, FooterTab, Icon } from 'native-base';
 import { Link } from 'react-router-native';
 
-export default class FooterTabs extends Component {
-    render() {
-        return (
-            <Footer>
-                <FooterTab>
-                    <Link to="/dashboard">
-                        {/* <Button active> */}
-                        <Icon name="home" />
-                        {/* </Button> */}
-                    </Link>
-                    <Link to="/">
-                        {/* <Button> */}
-                        <Icon name="search" />
-                        {/* <Text>Search</Text> */}
-                        {/* </Button> */}
-                    </Link>
-                    <Link to="/account">
-                        <Button vertical>
-                            <Icon active name="person" />
-                            <Text>Account</Text>
-                        </Button>
-                    </Link>
-                </FooterTab>
-            </Footer>
-        );
-    }
-}
+const FooterTabs = () => {
+    return (
+        <Footer>
+            <FooterTab style={{ backgroundColor: '#F26F20', padding: '3%' }}>
+                <Link to="/dashboard">
+                    {/* <Button active> */}
+                    <Icon style={{ color: '#FFFF' }} name="home" />
+                    {/* </Button> */}
+                </Link>
+                <Link to="/">
+                    {/* <Button> */}
+                    <Icon style={{ color: '#FFFF' }} name="search" />
+                    {/* <Text>Search</Text> */}
+                    {/* </Button> */}
+                </Link>
+                <Link to="/account">
+                    {/* <Button vertical> */}
+                    <Icon style={{ color: '#FFFF' }} active name="person" />
+                    {/* <Text>Account</Text> */}
+                    {/* </Button> */}
+                </Link>
+            </FooterTab>
+        </Footer>
+    );
+};
+
+export default FooterTabs;

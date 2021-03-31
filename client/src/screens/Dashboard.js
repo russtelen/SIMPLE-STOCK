@@ -3,7 +3,6 @@ import { Text, View, Image } from 'react-native';
 import { Link } from 'react-router-native';
 import {
     Container,
-    Header,
     Content,
     Footer,
     FooterTab,
@@ -11,11 +10,13 @@ import {
     Icon,
 } from 'native-base';
 import FooterTabs from '../components/navigation/FooterTabs';
+import Header from '../components/Header';
 
 const Dashboard = () => {
     return (
-        <Container>
-            <Content>
+        <Container style={{ width: '100%' }}>
+            <Header />
+            <Content contentContainerStyle={{ flex: 1 }}>
                 <Text
                     style={{
                         textAlign: 'center',
@@ -35,9 +36,6 @@ const Dashboard = () => {
                         height: 400,
                     }}
                 />
-                <Link to="/">
-                    <Text>Logout</Text>
-                </Link>
             </Content>
             <FooterTabs />
         </Container>

@@ -1,20 +1,49 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Text, Button } from 'react-native';
+import { Link } from 'react-router-native';
+import { Container, Content } from 'native-base';
+import FooterTabs from '../components/navigation/FooterTabs';
+import Header from '../components/Header';
+// import RouterButton from 'react-router-native-button';
 
-export default function Account() {
+const Account = ({ user }) => {
     return (
-        <View style={styles.container}>
-            <Text>Name</Text>
-            <Text>Mail</Text>
-        </View>
-    );
-}
+        <Container style={{ width: '100%' }}>
+            <Header />
+            <Content contentContainerStyle={{ flex: 1 }}>
+                <Text
+                    style={{
+                        textAlign: 'center',
+                        paddingBottom: 20,
+                        fontSize: 30,
+                    }}
+                >
+                    Name: {user.username}
+                </Text>
+                <Text
+                    style={{
+                        textAlign: 'center',
+                        paddingBottom: 20,
+                        fontSize: 30,
+                    }}
+                >
+                    Email: {user.email}
+                </Text>
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+                <Link to="/">
+                    <Text
+                        style={{
+                            textAlign: 'center',
+                            fontSize: 30,
+                        }}
+                    >
+                        Logout
+                    </Text>
+                </Link>
+            </Content>
+            <FooterTabs />
+        </Container>
+    );
+};
+
+export default Account;

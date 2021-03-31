@@ -12,7 +12,7 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import { loginUser, registerUser } from '../network';
 import { useHistory } from 'react-router-native';
-import FooterTabs from '../components/navigation/FooterTabs';
+import Header from '../components/Header';
 
 const renderTabBar = (props) => {
     props.tabStyle = Object.create(props.tabStyle);
@@ -55,13 +55,16 @@ const Auth = ({ setToken }) => {
 
     return (
         <Container>
-            <Content>
-                {/* <Header hasTabs style={{ backgroundColor: "#F26F20" }} /> */}
-                <Tabs renderTabBar={renderTabBar}>
+            <Content contentContainerStyle={{ flex: 1 }}>
+                <Header hasTabs />
+                <Tabs
+                    renderTabBar={renderTabBar}
+                    tabBarUnderlineStyle={{ backgroundColor: '#FFFF' }}
+                >
                     <Tab
                         heading={
                             <TabHeading style={{ backgroundColor: '#F26F20' }}>
-                                <Text>Login</Text>
+                                <Text style={{ color: '#FFFF' }}>Login</Text>
                             </TabHeading>
                         }
                     >
@@ -70,7 +73,7 @@ const Auth = ({ setToken }) => {
                     <Tab
                         heading={
                             <TabHeading style={{ backgroundColor: '#F26F20' }}>
-                                <Text>Register</Text>
+                                <Text style={{ color: '#FFFF' }}>Register</Text>
                             </TabHeading>
                         }
                     >
@@ -78,7 +81,6 @@ const Auth = ({ setToken }) => {
                     </Tab>
                 </Tabs>
             </Content>
-            <FooterTabs />
         </Container>
     );
 };

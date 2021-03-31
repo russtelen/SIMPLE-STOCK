@@ -6,6 +6,8 @@ import jwtDecode from 'jwt-decode';
 import { NativeRouter, Route } from 'react-router-native';
 import Dashboard from './src/screens/Dashboard';
 import Account from './src/screens/Account';
+import Header from './src/components/Header';
+import * as Font from 'expo-font';
 
 export default function App() {
     const [user, setUser] = useState({});
@@ -32,6 +34,14 @@ export default function App() {
         console.log(user);
     }, [token]);
 
+    useEffect(() => {
+        (async () =>
+            await Font.loadAsync({
+                Roboto: require('native-base/Fonts/Roboto.ttf'),
+                Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+            }))();
+    }, []);
+
     return (
         <NativeRouter>
             <View style={styles.container}>
@@ -42,7 +52,7 @@ export default function App() {
                     <Dashboard />
                 </Route>
                 <Route path="/account">
-                    <Account />
+                    <Account user={user} />
                 </Route>
             </View>
         </NativeRouter>
