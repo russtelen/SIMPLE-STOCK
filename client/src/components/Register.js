@@ -66,7 +66,7 @@ export default function Register({ navigation, submitRegister }) {
                     handleRegister();
                 }}
             >
-                <Text>Sign Up</Text>
+                <Text style={styles.bottonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>
     );
@@ -103,5 +103,8 @@ const styles = StyleSheet.create({
     },
     text: {
         margin: 10,
+    },
+    bottonText: {
+        color: '#FFFF',
     },
 });

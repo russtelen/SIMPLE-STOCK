@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Footer, FooterTab, Icon } from 'native-base';
+import { Footer, FooterTab, Icon, Button, Text } from 'native-base';
 import { Link } from 'react-router-native';
 
 const FooterTabs = () => {
@@ -20,8 +20,8 @@ const FooterTabs = () => {
                 <Link to="/account">
                     {/* <Button vertical> */}
                     <Icon style={{ color: '#FFFF' }} active name="person" />
-                    {/* <Text>Account</Text> */}
-                    {/* </Button> */}
+                    {/* <Text>Account</Text>
+                    </Button> */}
                 </Link>
             </FooterTab>
         </Footer>

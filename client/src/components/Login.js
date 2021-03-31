@@ -38,7 +38,7 @@ export default function Login({ submitLogin }) {
                 value={password}
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={{ color: '#FFFF' }}>Login</Text>
+                <Text style={styles.bottonText}>Login</Text>
             </TouchableOpacity>
         </View>
     );
@@ -75,5 +75,8 @@ const styles = StyleSheet.create({
     },
     text: {
         margin: 10,
+    },
+    bottonText: {
+        color: '#FFFF',
     },
 });
