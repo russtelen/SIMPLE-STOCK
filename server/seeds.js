@@ -70,7 +70,8 @@ const seedDb = async () => {
   }}
   )
 
-  console.log("users seeded; user1 cash: " + user1.email)
+  const user1Updated = await User.findOne({ 'username': 'russ' });
+  console.log("users seeded; user1 cash: " + user1Updated.email)
 }
 
 ;(async () => {
