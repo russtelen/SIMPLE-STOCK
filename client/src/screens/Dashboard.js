@@ -44,7 +44,7 @@ const Dashboard = ({ user }) => {
                 <List>
                     <ListItem>
                         <Body style={styles.body}>
-                            <Text style={styles.textBoxTicker}>Ticker</Text>
+                            <Text style={styles.textBox}>Ticker</Text>
                             <Text style={styles.textBox}>Price</Text>
                             <Text style={styles.textBox}>QTY</Text>
                             <Text style={styles.textBox}>Total</Text>
