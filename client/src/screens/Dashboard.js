@@ -44,20 +44,20 @@ const Dashboard = ({ user }) => {
                 <List>
                     <ListItem>
                         <Body style={styles.body}>
-                            <Text style={styles.textBox}>Ticker</Text>
-                            <Text style={styles.textBox}>Price</Text>
-                            <Text style={styles.textBox}>QTY</Text>
-                            <Text style={styles.textBox}>Total</Text>
-                            <Text style={styles.textBox}>Amount</Text>
-                            <Text style={styles.textBox}>Option</Text>
+                            <Text style={styles.textHeader}>Ticker</Text>
+                            <Text style={styles.textHeader}>Price</Text>
+                            <Text style={styles.textHeader}>QTY</Text>
+                            <Text style={styles.textHeader}>Total</Text>
+                            <Text style={styles.textHeader}>Amount</Text>
+                            <Text style={styles.textHeader}>Option</Text>
                         </Body>
                     </ListItem>
                     <ListItem>
                         <Body style={styles.body}>
-                            <Text style={styles.textBox}>APL</Text>
-                            <Text style={styles.textBox}>$200</Text>
-                            <Text style={styles.textBox}>1</Text>
-                            <Text style={styles.textBox}>$400</Text>
+                            <Text style={styles.text}>APL</Text>
+                            <Text style={styles.text}>$200</Text>
+                            <Text style={styles.text}>1</Text>
+                            <Text style={styles.text}>$400</Text>
                             <TextInput
                                 style={styles.textInputBox}
                                 clearButtonMode="always"
@@ -105,18 +105,24 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#ffb347',
         padding: '1%',
-        marginLeft: '1%',
+        marginLeft: '2%',
     },
     bottonText: {
         color: '#FFFF',
         fontSize: 12,
         textAlign: 'center',
     },
-    textBox: {
+    text: {
         width: '16%',
         textAlign: 'center',
     },
-    textInputBox: { borderWidth: 1, width: '15%' },
+    textHeader: {
+        width: '16%',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 13,
+    },
+    textInputBox: { borderWidth: 1, width: '12%' },
 });
 
 export default Dashboard;
