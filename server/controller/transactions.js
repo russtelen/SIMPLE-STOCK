@@ -47,7 +47,7 @@ module.exports.makeTransaction = async (req, res) => {
     user.transactions.push(transaction)
 
     //   9. Add / Subtract money from user depending on transaction
-    user.initialCash -= transactionPrice
+    user.initialCash += transactionPrice
 
     //   10. save transaction
     await transaction.save()
@@ -58,11 +58,11 @@ module.exports.makeTransaction = async (req, res) => {
     //   12. Conditionally send message back to client
     if (transactionPrice < 0) {
       res.send({
-        message: `Transaction complete. Successfully sold ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
+        message: `Transaction complete. Successfully bought ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
       })
     } else {
       res.send({
-        message: `Transaction complete. Successfully bought ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
+        message: `Transaction complete. Successfully sold ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
       })
     }
   } catch (e) {
