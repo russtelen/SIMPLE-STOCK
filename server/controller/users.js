@@ -7,6 +7,15 @@ const { generateToken } = require("../utils/jwt")
 // =============================================
 // Logic
 // =============================================
+// @ GET
+// @ User Financial Data
+module.exports.getUserData = async (req, res) => {
+  const userId = req.userData._id
+  const user = await User.findById(userId)
+
+  res.send({ user })
+}
+
 // @ POST
 // @ Create (register) user
 module.exports.registerUser = async (req, res) => {
@@ -15,7 +24,12 @@ module.exports.registerUser = async (req, res) => {
     const { email, username, password } = req.body
     // create new User (only username and email)
     // tQ: add $50k in cash and initialize empty transactions array
-    const user = new User({ username, email, cash: 50000, transactions: [] })
+    const user = new User({
+      username,
+      email,
+      initialCash: 50000,
+      transactions: [],
+    })
     // "register" user using .register()
     const registeredUser = await User.register(user, password)
 
@@ -31,8 +45,6 @@ module.exports.registerUser = async (req, res) => {
           _id: user._id,
           email: user.email,
           username: user.username,
-          initialCash: user.initialCash,
-          transactions: user.transactions,
         })
 
         // send back token
@@ -57,8 +69,6 @@ module.exports.loginUser = async (req, res) => {
         _id: user._id,
         email: user.email,
         username: user.username,
-        initialCash: user.initialCash,
-        transactions: user.transactions,
       })
 
       // send back token
