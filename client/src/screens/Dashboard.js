@@ -1,21 +1,12 @@
 import React from 'react';
 import { Text, StyleSheet, TextInput } from 'react-native';
 import { Container, Content, List, ListItem, Body, Button } from 'native-base';
-import FooterTabs from '../components/navigation/FooterTabs';
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
     return (
         <Container style={{ width: '100%' }}>
             <Content contentContainerStyle={{ flex: 1 }}>
-                <Text
-                    style={{
-                        textAlign: 'center',
-                        paddingBottom: 20,
-                        fontSize: 30,
-                    }}
-                >
-                    {/* Hi, {user.username} */}
-                </Text>
+                <Text style={styles.greetingText}>Hi, {user.username}</Text>
                 <List>
                     <ListItem>
                         <Body style={styles.body}>
@@ -70,6 +61,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         margin: '1%',
         alignItems: 'center',
+    },
+    greetingText: {
+        textAlign: 'center',
+        padding: '5%',
+        fontSize: 30,
     },
     buttonView: {
         flexDirection: 'row',

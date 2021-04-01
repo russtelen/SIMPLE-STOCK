@@ -41,7 +41,7 @@ export default function App() {
                     <Header />
 
                     <Route exact path="/dashboard">
-                        <Dashboard />
+                        <Dashboard user={user} />
                     </Route>
                     <Route exact path="/account">
                         <Account user={user} setToken={setToken} />
