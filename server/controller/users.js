@@ -24,7 +24,12 @@ module.exports.registerUser = async (req, res) => {
     const { email, username, password } = req.body
     // create new User (only username and email)
     // tQ: add $50k in cash and initialize empty transactions array
-    const user = new User({ username, email, cash: 50000, transactions: [] })
+    const user = new User({
+      username,
+      email,
+      initialCash: 50000,
+      transactions: [],
+    })
     // "register" user using .register()
     const registeredUser = await User.register(user, password)
 
