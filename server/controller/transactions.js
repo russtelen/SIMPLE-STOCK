@@ -58,7 +58,11 @@ module.exports.makeTransaction = async (req, res) => {
     //   12. Conditionally send message back to client
     if (transactionPrice < 0) {
       res.send({
-        message: `Transaction complete. Successfully bought ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
+        message: `Transaction complete. Successfully bought ${
+          transaction.numShares
+        } shares of ${
+          transaction.symbol
+        } for $${-transaction.quotePrice}. Total of $${-transactionPrice}`,
       })
     } else {
       res.send({
