@@ -14,6 +14,7 @@ const User = require("./models/Users")
 //REQUIRE ROUTERS
 //------------
 const userRoutes = require("./routes/users")
+const transactionRoutes = require("./routes/transactions")
 
 // ==========
 // CONFIG
@@ -58,6 +59,7 @@ connectDb()
 // User ROUTES
 //-------------
 app.use("/api/users", userRoutes)
+app.use("/api/transactions", transactionRoutes)
 
 //==============================================
 // Error Handlers
