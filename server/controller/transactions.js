@@ -37,37 +37,34 @@ module.exports.makeTransaction = async (req, res) => {
     //   6. Calculate transaction price
     const transactionPrice = transaction.numShares * transaction.quotePrice
 
-    console.log(transactionPrice)
-    console.log(user)
+    //   7.Check if transaction price exceeds user cash, if yes, return
+    if (transactionPrice > user.initialCash) {
+      res.send({ message: "Insufficient Funds" })
+      return
+    }
 
-    // //   7.Check if transaction price exceeds user cash, if yes, return
-    // if (transactionPrice > user.initialCash) {
-    //   res.send({ message: "Insufficient Funds" })
-    //   return
-    // }
+    //   8. Push transaction in transactions array of user (user.transactions)
+    user.transactions.push(transaction)
 
-    // //   8. Push transaction in transactions array of user (user.transactions)
-    // user.transactions.push(transaction)
+    //   9. Add / Subtract money from user depending on transaction
+    user.initialCash -= transactionPrice
 
-    // //   9. Add / Subtract money from user depending on transaction
-    // user.initialCash -= transactionPrice
+    //   10. save transaction
+    await transaction.save()
 
-    // //   10. save transaction
-    // await transaction.save()
+    //   11. update/save user in the database
+    await user.save()
 
-    // //   11. update/save user in the database
-    // await user.save()
-
-    // //   12. Conditionally send message back to client
-    // if (transactionPrice < 0) {
-    //   res.send({
-    //     message: `Transaction complete. Successfully bought ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
-    //   })
-    // } else {
-    //   res.send({
-    //     message: `Transaction complete. Successfully sold ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
-    //   })
-    // }
+    //   12. Conditionally send message back to client
+    if (transactionPrice < 0) {
+      res.send({
+        message: `Transaction complete. Successfully sold ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
+      })
+    } else {
+      res.send({
+        message: `Transaction complete. Successfully bought ${transaction.numShares} shares of ${transaction.symbol} for ${transaction.quotePrice}. Total of ${transactionPrice}`,
+      })
+    }
   } catch (e) {
     console.log(e)
   }
