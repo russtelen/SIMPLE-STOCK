@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput } from 'react-native';
 import { Container, Content, List, ListItem, Body, Button } from 'native-base';
 
 const Dashboard = ({ user }) => {
+    const [amount, setAmount] = useState();
+
+    //handling buy
+    const handleBuy = async (data) => {
+        try {
+            //only allow number input
+            const numericRegex = /^([0-9]{1,100})+$/;
+            if (numericRegex.test(amount)) {
+                alert(`Successsfully bought ${amount} share(s) `);
+            } else {
+                alert(`Invaild input!`);
+            }
+            setAmount('');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    //handling sell
+    const handleSell = async (data) => {
+        try {
+            //only allow number input
+            const numericRegex = /^([0-9]{1,100})+$/;
+            if (numericRegex.test(amount)) {
+                alert(`Successsfully sold ${amount} share(s)`);
+            } else {
+                alert(`Invaild input!`);
+            }
+            setAmount('');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <Container style={{ width: '100%' }}>
             <Content contentContainerStyle={{ flex: 1 }}>
@@ -24,26 +58,23 @@ const Dashboard = ({ user }) => {
                             <Text style={styles.textBox}>$200</Text>
                             <Text style={styles.textBox}>1</Text>
                             <Text style={styles.textBox}>$400</Text>
-                            <TextInput style={styles.textInputBox}></TextInput>
-                            <Button style={styles.button}>
+                            <TextInput
+                                style={styles.textInputBox}
+                                clearButtonMode="always"
+                                keyboardType="number-pad"
+                                value={amount}
+                                onChangeText={(event) => setAmount(event)}
+                            ></TextInput>
+                            <Button
+                                style={styles.button}
+                                onPress={() => handleBuy(amount)}
+                            >
                                 <Text style={styles.bottonText}>Buy</Text>
                             </Button>
-                            <Button style={styles.button}>
-                                <Text style={styles.bottonText}>Sell</Text>
-                            </Button>
-                        </Body>
-                    </ListItem>
-                    <ListItem>
-                        <Body style={styles.body}>
-                            <Text style={styles.textBox}>AAPL</Text>
-                            <Text style={styles.textBox}>$200</Text>
-                            <Text style={styles.textBox}>1</Text>
-                            <Text style={styles.textBox}>$400</Text>
-                            <TextInput style={styles.textInputBox}></TextInput>
-                            <Button style={styles.button}>
-                                <Text style={styles.bottonText}>Buy</Text>
-                            </Button>
-                            <Button style={styles.button}>
+                            <Button
+                                style={styles.button}
+                                onPress={() => handleSell(amount)}
+                            >
                                 <Text style={styles.bottonText}>Sell</Text>
                             </Button>
                         </Body>
