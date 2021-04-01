@@ -38,7 +38,7 @@ module.exports.makeTransaction = async (req, res) => {
     const transactionPrice = transaction.numShares * transaction.quotePrice
 
     //   7.Check if transaction price exceeds user cash, if yes, return
-    if (transactionPrice > user.initialCash) {
+    if (-transactionPrice > user.initialCash) {
       res.send({ message: "Insufficient Funds" })
       return
     }
@@ -56,7 +56,7 @@ module.exports.makeTransaction = async (req, res) => {
     await user.save()
 
     //   12. Conditionally send message back to client
-    if (transactionPrice < 0) {
+    if (transaction.quotePrice < 0) {
       res.send({
         message: `Transaction complete. Successfully bought ${
           transaction.numShares
