@@ -4,7 +4,7 @@ import Auth from '../client/src/screens/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
 import { NativeRouter, Route } from 'react-router-native';
-import Dashboard from './src/screens/Dashboard';
+import Dashboard from './src/screens/DashboardScreen/Dashboard';
 import Account from './src/screens/Account';
 import Header from './src/components/Header';
 import FooterTabs from './src/components/navigation/FooterTabs';
@@ -33,9 +33,9 @@ export default function App() {
         setUser(user);
         // console.log(user);
     }, [token]);
-
     return (
         <NativeRouter>
+            {/* {console.log(`token${token}`)} */}
             {token ? (
                 <>
                     <Header />
