@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import { useHistory } from 'react-router-native';
 import { logoutUser, getUser } from '../network';
 
-const Account = ({ user, setToken }) => {
+const Account = ({ setToken }) => {
     const history = useHistory();
+    const [user, setUser] = useState({});
 
     const handleLogOut = async () => {
         const res = await logoutUser();
@@ -20,8 +21,8 @@ const Account = ({ user, setToken }) => {
     useEffect(() => {
         (async () => {
             const result = await getUser();
-            console.log(result);
-            // setPost(result.post);
+            setUser(result.user);
+            console.log(user);
         })();
     }, []);
 
@@ -36,6 +37,9 @@ const Account = ({ user, setToken }) => {
             >
                 <Text style={styles.text}>Name: {user.username}</Text>
                 <Text style={styles.text}>Email: {user.email}</Text>
+                <Text style={styles.text}>
+                    Account balance: ${user.initialCash.toFixed(2)}
+                </Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
