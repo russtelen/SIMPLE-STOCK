@@ -11,7 +11,6 @@ const Dashboard = ({ user }) => {
         (async () => {
             const result = await getUser();
             setTransactions(result.user.transactions);
-            console.log(transactions);
         })();
     }, []);
 
