@@ -67,3 +67,19 @@ export async function getUser() {
         throw error;
     }
 }
+
+// buy/sell stock
+export const stockTransaction = async (data) => {
+    try {
+        const token = await getToken();
+        const res = await axios({
+            method: 'post',
+            url: 'https://stealth-simple.herokuapp.com/api/transactions',
+            headers: { Authorization: `Bearer ${token}` },
+            data,
+        });
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+};

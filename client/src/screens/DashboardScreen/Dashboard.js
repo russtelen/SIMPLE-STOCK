@@ -6,22 +6,6 @@ import TransactionItems from '../DashboardScreen/TransactionItems';
 
 const Dashboard = ({ user }) => {
     const [transactions, setTransactions] = useState([]);
-    // const [results, setResults] = useState();
-    // const [term, setTerm] = useState();
-
-    // useEffect(() => {
-    //     const searchAPI = async (data) => {
-    //         console.log('term', term);
-    //         const response = await finnhub.get(
-    //             `quote?symbol=${data}&token=c1jfqff48v6q1q0kpsi0`
-    //         );
-    //         console.log('results', results);
-    //         setResults(response.data.c);
-    //     };
-    // }, [results]);
-    // // useEffect(() => {
-    // //     // console.log('results', results);
-    // // }, [results]);
 
     useEffect(() => {
         (async () => {

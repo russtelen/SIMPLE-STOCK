@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, TextInput } from 'react-native';
 import { ListItem, Body, Button } from 'native-base';
 import finnhub from '../../api/Finnub';
+import { stockTransaction } from '../../network';
 
 const TransactionItems = ({ transaction }) => {
     const [amount, setAmount] = useState('');
-    const [results, setResults] = useState();
+    const [currentPrice, setCurrentPrice] = useState('');
 
     //fetch current price
     useEffect(() => {
@@ -14,13 +15,13 @@ const TransactionItems = ({ transaction }) => {
                 const response = await finnhub.get(
                     `quote?symbol=${transaction.symbol}&token=c1jfqff48v6q1q0kpsi0`
                 );
-                console.log('results', results);
-                setResults(response.data.c);
+                console.log('currentPrice', currentPrice);
+                setCurrentPrice(response.data.c);
             } catch (error) {
                 console.error(error.message);
             }
         })();
-    }, [results]);
+    }, [currentPrice]);
 
     //handling buy
     const handleBuy = async (data) => {
@@ -32,6 +33,11 @@ const TransactionItems = ({ transaction }) => {
             } else {
                 alert(`Invaild input!`);
             }
+            await stockTransaction({
+                symbol: transaction.symbol,
+                numShares: amount,
+                quotePrice: -currentPrice,
+            });
             setAmount('');
         } catch (e) {
             console.log(e);
@@ -48,13 +54,18 @@ const TransactionItems = ({ transaction }) => {
             } else {
                 alert(`Invaild input!`);
             }
+            await stockTransaction({
+                symbol: transaction.symbol,
+                numShares: amount,
+                quotePrice: currentPrice,
+            });
             setAmount('');
         } catch (e) {
             console.log(e);
         }
     };
 
-    //Total To 2 Demical
+    //turn total To 2 Demical
     const total = transaction.numShares * transaction.quotePrice;
     const totalTo2Demical = total.toFixed(2);
 
@@ -65,7 +76,7 @@ const TransactionItems = ({ transaction }) => {
                 <Text style={styles.text}>${transaction.quotePrice}</Text>
                 <Text style={styles.text}>{transaction.numShares}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
-                <Text style={styles.text}>${results}</Text>
+                <Text style={styles.text}>${currentPrice}</Text>
                 <TextInput
                     style={styles.textInputBox}
                     clearButtonMode="always"
@@ -73,7 +84,16 @@ const TransactionItems = ({ transaction }) => {
                     value={amount}
                     onChangeText={(event) => setAmount(event)}
                 ></TextInput>
-                <Button style={styles.button} onPress={() => handleBuy(amount)}>
+                <Button
+                    style={styles.button}
+                    onPress={() =>
+                        handleBuy({
+                            symbol: transaction.symbol,
+                            numShares: amount,
+                            quotePrice: currentPrice,
+                        })
+                    }
+                >
                     <Text style={styles.bottonText}>Buy</Text>
                 </Button>
                 <Button
