@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
 import { NativeRouter, Route } from 'react-router-native';
 import Dashboard from './src/screens/DashboardScreen/Dashboard';
-import Account from './src/screens/Account';
+import Account from './src/screens/AccountScreen/Account';
 import Search from './src/screens/Search';
 import Header from './src/components/Header';
 import FooterTabs from './src/components/navigation/FooterTabs';

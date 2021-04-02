@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Text, StyleSheet, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
 import { getUser, getPosition } from '../../network';
 import TransactionItems from '../DashboardScreen/TransactionItems';
@@ -19,7 +19,7 @@ const Dashboard = ({ user }) => {
     }, [rerender]);
 
     return (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView>
             <Container style={{ width: '100%' }}>
                 <Content contentContainerStyle={{ flex: 1 }}>
                     <Text style={styles.greetingText}>Hi, {user.username}</Text>
