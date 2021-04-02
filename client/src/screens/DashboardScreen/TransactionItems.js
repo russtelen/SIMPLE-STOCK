@@ -28,7 +28,9 @@ const TransactionItems = ({ transaction, setRerender }) => {
             //only allow number input
             const numericRegex = /^([0-9]{1,100})+$/;
             if (numericRegex.test(amount)) {
-                alert(`Successsfully bought ${amount} share(s) `);
+                alert(
+                    `Successsfully bought ${amount} share(s) at current price $${currentPrice}`
+                );
             } else {
                 alert(`Invaild input!`);
             }
@@ -37,6 +39,7 @@ const TransactionItems = ({ transaction, setRerender }) => {
                 numShares: amount,
                 quotePrice: -currentPrice,
             });
+            console.log(data);
             setRerender((prev) => !prev);
             setAmount('');
         } catch (e) {
@@ -61,6 +64,7 @@ const TransactionItems = ({ transaction, setRerender }) => {
                 numShares: amount,
                 quotePrice: currentPrice,
             });
+            console.log(data);
             setRerender((prev) => !prev);
             setAmount('');
         } catch (e) {
@@ -69,15 +73,15 @@ const TransactionItems = ({ transaction, setRerender }) => {
     };
 
     //turn total To 2 Demical
-    const total = transaction.numShares * transaction.quotePrice;
+    const total = transaction.avgPricePerShare * transaction.avgPricePerShare;
     const totalTo2Demical = total.toFixed(2);
 
     return (
         <ListItem>
             <Body style={styles.body}>
                 <Text style={styles.text}>{transaction.symbol}</Text>
-                <Text style={styles.text}>${transaction.quotePrice}</Text>
-                <Text style={styles.text}>{transaction.numShares}</Text>
+                <Text style={styles.text}>${transaction.avgPricePerShare}</Text>
+                <Text style={styles.text}>{transaction.numSharesTotal}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
                 <Text style={styles.text}>${currentPrice}</Text>
                 <TextInput
@@ -101,7 +105,13 @@ const TransactionItems = ({ transaction, setRerender }) => {
                 </Button>
                 <Button
                     style={styles.button}
-                    onPress={() => handleSell(amount)}
+                    onPress={() =>
+                        handleSell({
+                            symbol: transaction.symbol,
+                            numShares: amount,
+                            quotePrice: currentPrice,
+                        })
+                    }
                 >
                     <Text style={styles.bottonText}>Sell</Text>
                 </Button>
