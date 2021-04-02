@@ -9,6 +9,7 @@ const {
   loginUser,
   logoutUser,
   getUserData,
+  getPortfolio,
 } = require("../controller/users")
 const { requireLogin } = require("../utils/middlewares")
 
@@ -19,5 +20,6 @@ router.route("/register").post(registerUser)
 router.route("/login").post(passport.authenticate("local"), loginUser)
 router.route("/logout").post(logoutUser)
 router.route("/financials").get(requireLogin, getUserData)
+router.route("/portfolio").get(requireLogin, getPortfolio)
 
 module.exports = router
