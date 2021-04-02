@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+    Text,
+    StyleSheet,
+    TextInput,
+    SafeAreaView,
+    ScrollView,
+} from 'react-native';
 import { Container, Content, List, ListItem, Body, Button } from 'native-base';
+import { getUser } from '../network';
 
 const Dashboard = ({ user }) => {
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState('');
+    const [transactions, setTransactions] = useState([]);
 
     //handling buy
     const handleBuy = async (data) => {
@@ -37,51 +45,94 @@ const Dashboard = ({ user }) => {
         }
     };
 
+    useEffect(() => {
+        (async () => {
+            const result = await getUser();
+            setTransactions(result.user.transactions);
+            console.log(transactions);
+        })();
+    }, []);
+
+    // {messages.map((message) => (
+    //     <UserMessage
+    //         key={message._id}
+    //         className={classes.message}
+    //         message={message}
+    //         cognitoId={user.cognito_id}
+    //     ></UserMessage>
+    // ))}
     return (
-        <Container style={{ width: '100%' }}>
-            <Content contentContainerStyle={{ flex: 1 }}>
-                <Text style={styles.greetingText}>Hi, {user.username}</Text>
-                <List>
-                    <ListItem>
-                        <Body style={styles.body}>
-                            <Text style={styles.textHeader}>Ticker</Text>
-                            <Text style={styles.textHeader}>Price</Text>
-                            <Text style={styles.textHeader}>QTY</Text>
-                            <Text style={styles.textHeader}>Total</Text>
-                            <Text style={styles.textHeader}>Amount</Text>
-                            <Text style={styles.textHeader}>Option</Text>
-                        </Body>
-                    </ListItem>
-                    <ListItem>
-                        <Body style={styles.body}>
-                            <Text style={styles.text}>APL</Text>
-                            <Text style={styles.text}>$200</Text>
-                            <Text style={styles.text}>1</Text>
-                            <Text style={styles.text}>$400</Text>
-                            <TextInput
-                                style={styles.textInputBox}
-                                clearButtonMode="always"
-                                keyboardType="number-pad"
-                                value={amount}
-                                onChangeText={(event) => setAmount(event)}
-                            ></TextInput>
-                            <Button
-                                style={styles.button}
-                                onPress={() => handleBuy(amount)}
-                            >
-                                <Text style={styles.bottonText}>Buy</Text>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                onPress={() => handleSell(amount)}
-                            >
-                                <Text style={styles.bottonText}>Sell</Text>
-                            </Button>
-                        </Body>
-                    </ListItem>
-                </List>
-            </Content>
-        </Container>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scrollView}>
+                <Container style={{ width: '100%' }}>
+                    <Content contentContainerStyle={{ flex: 1 }}>
+                        <Text style={styles.greetingText}>
+                            Hi, {user.username}
+                        </Text>
+                        <List>
+                            <ListItem>
+                                <Body style={styles.body}>
+                                    <Text style={styles.textHeader}>
+                                        Ticker
+                                    </Text>
+                                    <Text style={styles.textHeader}>Price</Text>
+                                    <Text style={styles.textHeader}>QTY</Text>
+                                    <Text style={styles.textHeader}>Total</Text>
+                                    <Text style={styles.textHeader}>
+                                        Amount
+                                    </Text>
+                                    <Text style={styles.textHeader}>
+                                        Option
+                                    </Text>
+                                </Body>
+                            </ListItem>
+
+                            {transactions.map((transaction) => (
+                                <ListItem key={transaction._id}>
+                                    <Body style={styles.body}>
+                                        <Text style={styles.text}>
+                                            {transaction.symbol}
+                                        </Text>
+                                        <Text style={styles.text}>
+                                            {transaction.quotePrice}
+                                        </Text>
+                                        <Text style={styles.text}>
+                                            {transaction.numShares}
+                                        </Text>
+                                        {/* <Text style={styles.text}>$400</Text> */}
+                                        <TextInput
+                                            style={styles.textInputBox}
+                                            clearButtonMode="always"
+                                            keyboardType="number-pad"
+                                            value={amount}
+                                            onChangeText={(event) =>
+                                                setAmount(event)
+                                            }
+                                        ></TextInput>
+                                        <Button
+                                            style={styles.button}
+                                            onPress={() => handleBuy(amount)}
+                                        >
+                                            <Text style={styles.bottonText}>
+                                                Buy
+                                            </Text>
+                                        </Button>
+                                        <Button
+                                            style={styles.button}
+                                            onPress={() => handleSell(amount)}
+                                        >
+                                            <Text style={styles.bottonText}>
+                                                Sell
+                                            </Text>
+                                        </Button>
+                                    </Body>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Content>
+                </Container>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 

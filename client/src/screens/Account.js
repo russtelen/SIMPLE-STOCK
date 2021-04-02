@@ -22,7 +22,7 @@ const Account = ({ setToken }) => {
         (async () => {
             const result = await getUser();
             setUser(result.user);
-            console.log(user);
+            // console.log(user);
         })();
     }, []);
 
@@ -38,7 +38,7 @@ const Account = ({ setToken }) => {
                 <Text style={styles.text}>Name: {user.username}</Text>
                 <Text style={styles.text}>Email: {user.email}</Text>
                 <Text style={styles.text}>
-                    Account balance: ${user.initialCash.toFixed(2)}
+                    Account balance: ${user.initialCash}
                 </Text>
                 <TouchableOpacity
                     style={styles.button}
