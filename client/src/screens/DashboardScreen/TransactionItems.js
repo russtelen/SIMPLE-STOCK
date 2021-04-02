@@ -40,10 +40,12 @@ const TransactionItems = ({ transaction }) => {
     return (
         <ListItem>
             <Body style={styles.body}>
-                <Text style={styles.text}>{transaction.symbol}</Text>
-                <Text style={styles.text}>{transaction.quotePrice}</Text>
+                <Text style={styles.textTicker}>{transaction.symbol}</Text>
+                <Text style={styles.text}>${transaction.quotePrice}</Text>
                 <Text style={styles.text}>{transaction.numShares}</Text>
-                {/* <Text style={styles.text}>$400</Text> */}
+                <Text style={styles.text}>
+                    ${transaction.numShares * transaction.numShares}
+                </Text>
                 <TextInput
                     style={styles.textInputBox}
                     clearButtonMode="always"
@@ -88,7 +90,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text: {
-        width: '16%',
+        width: '17%',
+        textAlign: 'center',
+    },
+    textTicker: {
+        width: '15%',
         textAlign: 'center',
     },
     textInputBox: { borderWidth: 1, width: '12%' },
