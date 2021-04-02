@@ -37,7 +37,7 @@ const Account = ({ setToken }) => {
                 <Text style={styles.text}>Name: {user.username}</Text>
                 <Text style={styles.text}>Email: {user.email}</Text>
                 <Text style={styles.text}>
-                    Account balance: ${user.initialCash.toFixed(2)}
+                    Account balance: ${user?.initialCash?.toFixed(2)}
                 </Text>
                 <TouchableOpacity
                     style={styles.button}
