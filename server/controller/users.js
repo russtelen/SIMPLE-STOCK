@@ -89,3 +89,62 @@ module.exports.logoutUser = (req, res) => {
   req.session.destroy()
   res.send({ message: "Successfully logged out" })
 }
+
+// @ GET
+// @ Get portfolio
+module.exports.getPortfolio = async (req, res) => {
+  try {
+      // 1. extract user id from token in header
+      const userId = req.userData._id
+  
+      //  2. Find user
+      const user = await User.findById(userId)
+      if (!user) {
+          res.send({ message: "User Not Found" })
+          return
+      }
+
+      //  3. Calculate portfolio positions
+      //  - sum of the numShares for a given user and symbol, 
+      //  - the average price per share, 
+      //  - the current price per share, 
+      //  - and the profit/loss which is the difference between the average price multiplied by shares held and current price multiplied by shares held
+
+      // tQ: calculate sums for each individual transaction first
+      const allTrades = user.transactions.map(t => ({
+          symbol : t.symbol,
+          numShares: t.numShares,
+          totalPrice : t.numShares * t.quotePrice
+      }));
+
+      let tradesBySymbol = []
+      allTrades.reduce(function(r, val) {
+          if (!r[val.symbol]) {
+              r[val.symbol] = { 
+                  symbol: val.symbol, 
+                  numSharesTotal: 0,
+                  bottomLine: 0
+              };
+              tradesBySymbol.push(r[val.symbol])
+          }
+          
+          r[val.symbol].numSharesTotal += val.numShares;
+          r[val.symbol].bottomLine += val.totalPrice;
+
+          return r;
+      }, {});
+
+      // tQ: get average price per share 
+      const positions = tradesBySymbol.map(t => ({
+          symbol : t.symbol,
+          numSharesTotal: t.numSharesTotal,
+          avgPricePerShare: t.bottomLine / t.numSharesTotal
+      }));
+
+      res.send({positions})
+      return
+  
+    } catch (e) {
+      console.log(e)
+    }
+}

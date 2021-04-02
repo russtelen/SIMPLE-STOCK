@@ -7,7 +7,8 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 // Connect Mongoose
-let db = process.env.DB
+// let db = process.env.DB
+let db = 'mongodb://localhost:27017/myapp'
 
 module.exports.connectDb = async () => {
   try {

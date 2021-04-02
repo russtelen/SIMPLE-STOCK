@@ -23,18 +23,6 @@ const userSchema = new Schema({
   transactions: [transactionModel.schema]
 })
 
-userSchema.virtual('cash')
-.get(() => {
-  let moneyBucks = this.initialCash
-  if (this.transactions) {
-    let i
-    for (i = 0; i < this.transactions.length; ++i) {
-      moneyBucks += this.transactions[i].numShares * this.transactions[i].quotePrice
-    }
-  }
-  return moneyBucks
-});
-
 // this plugin adds a username, hash and salt field to store the username, the hashed password and the salt value.
 userSchema.plugin(passportLocalMongoose)
 
