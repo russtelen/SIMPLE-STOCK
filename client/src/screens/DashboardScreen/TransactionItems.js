@@ -4,7 +4,7 @@ import { ListItem, Body, Button } from 'native-base';
 import finnhub from '../../api/Finnub';
 import { stockTransaction } from '../../network';
 
-const TransactionItems = ({ transaction }) => {
+const TransactionItems = ({ transaction, setRerender }) => {
     const [amount, setAmount] = useState('');
     const [currentPrice, setCurrentPrice] = useState('');
 
@@ -15,7 +15,6 @@ const TransactionItems = ({ transaction }) => {
                 const response = await finnhub.get(
                     `quote?symbol=${transaction.symbol}&token=c1jfqff48v6q1q0kpsi0`
                 );
-                console.log('currentPrice', currentPrice);
                 setCurrentPrice(response.data.c);
             } catch (error) {
                 console.error(error.message);
@@ -38,6 +37,7 @@ const TransactionItems = ({ transaction }) => {
                 numShares: amount,
                 quotePrice: -currentPrice,
             });
+            setRerender((prev) => !prev);
             setAmount('');
         } catch (e) {
             console.log(e);
@@ -50,7 +50,9 @@ const TransactionItems = ({ transaction }) => {
             //only allow number input
             const numericRegex = /^([0-9]{1,100})+$/;
             if (numericRegex.test(amount)) {
-                alert(`Successsfully sold ${amount} share(s)`);
+                alert(
+                    `Successsfully sold ${amount} share(s) at current price $${currentPrice}`
+                );
             } else {
                 alert(`Invaild input!`);
             }
@@ -59,6 +61,7 @@ const TransactionItems = ({ transaction }) => {
                 numShares: amount,
                 quotePrice: currentPrice,
             });
+            setRerender((prev) => !prev);
             setAmount('');
         } catch (e) {
             console.log(e);

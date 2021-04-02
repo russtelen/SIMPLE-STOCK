@@ -6,13 +6,14 @@ import TransactionItems from '../DashboardScreen/TransactionItems';
 
 const Dashboard = ({ user }) => {
     const [transactions, setTransactions] = useState([]);
+    const [rerender, setRerender] = useState(false);
 
     useEffect(() => {
         (async () => {
             const result = await getUser();
             setTransactions(result.user.transactions);
         })();
-    }, []);
+    }, [rerender]);
 
     return (
         <ScrollView style={styles.scrollView}>
@@ -39,6 +40,7 @@ const Dashboard = ({ user }) => {
                                 {transactions.map((transaction) => (
                                     <TransactionItems
                                         transaction={transaction}
+                                        setRerender={setRerender}
                                         key={transaction._id}
                                     />
                                 ))}
