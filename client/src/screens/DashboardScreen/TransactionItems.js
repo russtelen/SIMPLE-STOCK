@@ -37,15 +37,17 @@ const TransactionItems = ({ transaction }) => {
         }
     };
 
+    //Total To 2 Demical
+    const total = transaction.numShares * transaction.quotePrice;
+    const totalTo2Demical = total.toFixed(2);
+
     return (
         <ListItem>
             <Body style={styles.body}>
                 <Text style={styles.textTicker}>{transaction.symbol}</Text>
                 <Text style={styles.text}>${transaction.quotePrice}</Text>
                 <Text style={styles.text}>{transaction.numShares}</Text>
-                <Text style={styles.text}>
-                    ${transaction.numShares * transaction.numShares}
-                </Text>
+                <Text style={styles.text}>${totalTo2Demical}</Text>
                 <TextInput
                     style={styles.textInputBox}
                     clearButtonMode="always"
