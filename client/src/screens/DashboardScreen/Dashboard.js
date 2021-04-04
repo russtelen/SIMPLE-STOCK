@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, ScrollView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
 import { getUser, getPosition } from '../../network';
 import TransactionItems from '../DashboardScreen/TransactionItems';
 
 const Dashboard = ({ user }) => {
-    const [transactions, setTransactions] = useState([]);
-    // const [postionResult, setPostionResult] = useState([]);
+    // const [transactions, setTransactions] = useState([]);
+    const [postionResult, setPostionResult] = useState([]);
     const [rerender, setRerender] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const result = await getUser();
-            // const postionResult = await getPosition();
-            setTransactions(result.user.transactions);
-            // setPostionResult(postionResult.positions);
+            // const result = await getUser();
+            const postionResult = await getPosition();
+            // setTransactions(result.user.transactions);
+            setPostionResult(postionResult.positions);
         })();
     }, [rerender]);
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
+            {/* {console.log(postionResult)} */}
             <Container style={{ width: '100%' }}>
                 <Content contentContainerStyle={{ flex: 1 }}>
                     <Text style={styles.greetingText}>Hi, {user.username}</Text>
@@ -38,13 +39,13 @@ const Dashboard = ({ user }) => {
                                 <Text style={styles.textHeader}>Option</Text>
                             </Body>
                         </ListItem>
-                        {transactions.length > 0 ? (
+                        {postionResult.length > 0 ? (
                             <>
-                                {transactions.map((transaction) => (
+                                {postionResult.map((transaction) => (
                                     <TransactionItems
                                         transaction={transaction}
                                         setRerender={setRerender}
-                                        key={transaction._id}
+                                        key={transaction.symbol}
                                     />
                                 ))}
                             </>

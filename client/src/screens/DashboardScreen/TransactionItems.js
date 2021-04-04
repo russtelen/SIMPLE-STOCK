@@ -73,16 +73,15 @@ const TransactionItems = ({ transaction, setRerender }) => {
     };
 
     //turn total To 2 Demical
-    const total = transaction.quotePrice * transaction.numShares;
-    // const total = transaction.avgPricePerShare * transaction.avgPricePerShare;
+    const total = transaction.avgPricePerShare * transaction.avgPricePerShare;
     const totalTo2Demical = total.toFixed(2);
 
     return (
         <ListItem>
             <Body style={styles.body}>
                 <Text style={styles.text}>{transaction.symbol}</Text>
-                <Text style={styles.text}>${transaction.quotePrice}</Text>
-                <Text style={styles.text}>{transaction.numShares}</Text>
+                <Text style={styles.text}>${transaction.avgPricePerShare}</Text>
+                <Text style={styles.text}>{transaction.numSharesTotal}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
                 <Text style={styles.text}>${currentPrice}</Text>
                 <TextInput
@@ -118,46 +117,6 @@ const TransactionItems = ({ transaction, setRerender }) => {
                 </Button>
             </Body>
         </ListItem>
-        // <ListItem>
-        //     <Body style={styles.body}>
-        //         <Text style={styles.text}>{transaction.symbol}</Text>
-        //         <Text style={styles.text}>${transaction.avgPricePerShare}</Text>
-        //         <Text style={styles.text}>{transaction.numSharesTotal}</Text>
-        //         <Text style={styles.text}>${totalTo2Demical}</Text>
-        //         <Text style={styles.text}>${currentPrice}</Text>
-        //         <TextInput
-        //             style={styles.textInputBox}
-        //             clearButtonMode="always"
-        //             keyboardType="number-pad"
-        //             value={amount}
-        //             onChangeText={(event) => setAmount(event)}
-        //         ></TextInput>
-        //         <Button
-        //             style={styles.button}
-        //             onPress={() =>
-        //                 handleBuy({
-        //                     symbol: transaction.symbol,
-        //                     numShares: amount,
-        //                     quotePrice: currentPrice,
-        //                 })
-        //             }
-        //         >
-        //             <Text style={styles.bottonText}>Buy</Text>
-        //         </Button>
-        //         <Button
-        //             style={styles.button}
-        //             onPress={() =>
-        //                 handleSell({
-        //                     symbol: transaction.symbol,
-        //                     numShares: amount,
-        //                     quotePrice: currentPrice,
-        //                 })
-        //             }
-        //         >
-        //             <Text style={styles.bottonText}>Sell</Text>
-        //         </Button>
-        //     </Body>
-        // </ListItem>
     );
 };
 
@@ -189,5 +148,4 @@ const styles = StyleSheet.create({
     },
     textInputBox: { borderWidth: 1, width: '12%' },
 });
-
 export default TransactionItems;

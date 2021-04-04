@@ -16,7 +16,6 @@ export const loginUser = async (data) => {
         const res = await axios({
             method: 'post',
             url: 'https://stealth-simple.herokuapp.com/api/users/login',
-            // url: 'http://192.168.0.23:5000/api/users/login',
             data,
         });
 
@@ -30,8 +29,6 @@ export const registerUser = async (data) => {
     try {
         const res = await axios({
             method: 'post',
-            // url: 'http://192.168.0.23:5000/api/users/register',
-            // url: 'http://localhost:5000/api/users/register',
             url: 'https://stealth-simple.herokuapp.com/api/users/register',
             data,
         });
@@ -46,7 +43,6 @@ export const logoutUser = async () => {
     try {
         const res = await axios({
             method: 'post',
-            // url: 'http://192.168.0.23:5000/api/users/logout',
             url: 'https://stealth-simple.herokuapp.com/api/users/logout',
         });
         return res.data;
@@ -62,7 +58,6 @@ export async function getUser() {
         console.log(token);
         const res = await axios({
             method: 'get',
-            // url: 'http://192.168.0.23:5000/api/users/financials',
             url: '  https://stealth-simple.herokuapp.com/api/users/financials',
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -80,7 +75,7 @@ export async function getPosition() {
         console.log(token);
         const res = await axios({
             method: 'get',
-            url: 'http://192.168.0.23:5000/api/users/portfolio',
+            url: 'https://stealth-simple.herokuapp.com/api/users/portfolio',
             headers: { Authorization: `Bearer ${token}` },
         });
         return res.data;
@@ -96,7 +91,6 @@ export const stockTransaction = async (data) => {
         const token = await getToken();
         const res = await axios({
             method: 'post',
-            // url: 'http://192.168.0.23:5000/api/transactions',
             url: 'https://stealth-simple.herokuapp.com/api/transactions',
             headers: { Authorization: `Bearer ${token}` },
             data,
