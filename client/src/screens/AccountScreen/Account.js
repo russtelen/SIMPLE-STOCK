@@ -5,11 +5,12 @@ import { useHistory } from 'react-router-native';
 import { logoutUser, getUser } from '../../network';
 import { List } from 'react-native-paper';
 import TransactionList from './TransactionList';
+import ProfileDetail from './ProfileDetail';
 
 const Account = ({ setToken }) => {
     const history = useHistory();
     const [user, setUser] = useState({});
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = useState(true);
 
     const handlePress = () => setExpanded(!expanded);
     const [transactions, setTransactions] = useState([]);
@@ -47,25 +48,36 @@ const Account = ({ setToken }) => {
                     contentContainerStyle={{
                         flex: 1,
                         alignItems: 'center',
-                        justifyContent: 'center',
                     }}
                 >
-                    <Text style={styles.text}>Name: {user.username}</Text>
-                    <Text style={styles.text}>Email: {user.email}</Text>
                     <Text style={styles.text}>
                         Account balance: ${user?.initialCash?.toFixed(2)}
                     </Text>
                     <List.Section style={styles.container}>
                         <List.Accordion
-                            title="Transaction"
-                            left={(props) => (
-                                <List.Icon {...props} icon="equal" />
-                            )}
+                            title="Profile Detail"
+                            // left={(props) => (
+                            //     <List.Icon {...props} icon="equal" />
+                            // )}
+                            onPress={handlePress}
+                        >
+                            <ProfileDetail user={user} />
+                        </List.Accordion>
+                    </List.Section>
+                    <List.Section style={styles.container}>
+                        <List.Accordion
+                            title="Transaction History"
+                            // left={(props) => (
+                            //     <List.Icon {...props} icon="equal" />
+                            // )}
                             // expanded={expanded}
                             onPress={handlePress}
                         >
                             {transactions.map((transaction) => (
-                                <TransactionList transaction={transaction} />
+                                <TransactionList
+                                    transaction={transaction}
+                                    key={transaction._id}
+                                />
                             ))}
                         </List.Accordion>
                     </List.Section>
@@ -85,7 +97,10 @@ const Account = ({ setToken }) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
+        marginTop: '5%',
+        marginBottom: '1%',
     },
+
     button: {
         alignItems: 'center',
         backgroundColor: '#F26F20',
@@ -100,7 +115,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         paddingBottom: 20,
-        fontSize: 30,
+        fontSize: 20,
     },
 });
 export default Account;
