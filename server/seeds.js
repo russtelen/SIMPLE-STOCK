@@ -7,6 +7,7 @@ const { connectDb } = require("./models/db")
 const mongoose = require("mongoose")
 const User = require("./models/Users")
 const Transaction = require("./models/Transactions")
+const Stock = require("./models/Stocks")
 
 //=============================
 // CONFIG
@@ -66,6 +67,28 @@ const seedDb = async () => {
     transactionDateTime: 1617145438869,
   })
 
+  // Create Stocks (to watch)
+  //-------------------
+  let stock1 = new Stock({
+    symbol: "GOOGL",
+    currentPrice: 2200,
+  })
+
+  let stock2 = new Stock({
+    symbol: "KOPN",
+    currentPrice: 350,
+  })
+
+  let stock3 = new Stock({
+    symbol: "KIRK",
+    currentPrice: 67,
+  })
+
+  let stock4 = new Stock({
+    symbol: "BGFV",
+    currentPrice: 89,
+  })
+
   // Save transactions
   //-------------------
   await transaction1.save()
@@ -79,6 +102,9 @@ const seedDb = async () => {
     {
       $push: {
         transactions: transaction1,
+        watchlist: {
+          $each: [stock1, stock2],
+        },
       },
     }
   )
@@ -89,6 +115,9 @@ const seedDb = async () => {
       $push: {
         transactions: {
           $each: [transaction2, transaction3],
+        },
+        watchlist: {
+          $each: [stock3, stock4],
         },
       },
     }
@@ -101,9 +130,6 @@ const seedDb = async () => {
   user2.initialCash += transaction3.numShares * transaction3.quotePrice
   await user1.save()
   await user2.save()
-
-  const user1Updated = await User.findOne({ username: "russ" })
-  console.log("users seeded; user1 cash: " + user1Updated.email)
 }
 
 ;(async () => {
