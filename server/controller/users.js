@@ -140,20 +140,22 @@ module.exports.getPortfolio = async (req, res) => {
       let positions = []
       const processPosition = async (t) => {
         const currPrice = await getCurrentPrice(t.symbol)
-        console.log(currPrice)
+        
         const avgPrice = t.bottomLine / t.numSharesTotal
-        return {
-          symbol: t.symbol,
-          numSharesTotal: t.numSharesTotal,
-          avgPricePerShare: avgPrice,
-          currPrice: currPrice,
-          profitLoss: currPrice * t.numSharesTotal - avgPrice * t.numSharesTotal
-        }
+        
+        return (
+          {
+            symbol: t.symbol,
+            numSharesTotal: t.numSharesTotal,
+            avgPricePerShare: avgPrice,
+            currPrice: currPrice,
+            profitLoss: currPrice * t.numSharesTotal - avgPrice * t.numSharesTotal
+          }
+        )
       }
 
       for (const t of tradesBySymbol) { 
-        console.log(t)
-        positions.push(processPosition(t))
+        positions.push(await processPosition(t))
       }
 
       res.send({positions})
