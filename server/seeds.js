@@ -22,6 +22,7 @@ connectDb()
 const seedDb = async () => {
   await User.deleteMany({})
   await Transaction.deleteMany({})
+  await Stock.deleteMany({})
   console.log("seeding users")
 
   // Create new users
@@ -88,6 +89,13 @@ const seedDb = async () => {
     symbol: "BGFV",
     currentPrice: 89,
   })
+
+  // Save stocks
+  //-------------------
+  await stock1.save()
+  await stock2.save()
+  await stock3.save()
+  await stock4.save()
 
   // Save transactions
   //-------------------
