@@ -54,14 +54,14 @@ const StockItems = ({ postionResult, setRerender }) => {
 
     //turn total To 2 Demical
     const total = postionResult.avgPricePerShare * postionResult.numSharesTotal;
-    const totalTo2Demical = total.toFixed(2);
+    const totalTo2Demical = -total.toFixed(2);
 
     return (
         <ListItem>
             <Body style={styles.body}>
                 <Text style={styles.text}>{postionResult.symbol}</Text>
                 <Text style={styles.text}>
-                    ${postionResult.avgPricePerShare}
+                    ${-postionResult.avgPricePerShare}
                 </Text>
                 <Text style={styles.text}>{postionResult.numSharesTotal}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>

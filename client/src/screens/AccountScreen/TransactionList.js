@@ -17,7 +17,9 @@ const TransactionList = ({ transaction }) => {
                     title={`${moment(transaction.transactionDateTime).format(
                         'YYYY-MM-DD'
                     )}   ${transaction.symbol} `}
-                    description={` BUY   No. of share : ${transaction.numShares}    Price: $${transaction.quotePrice}`}
+                    description={` BUY   No. of share : ${
+                        transaction.numShares
+                    }    Price: $${-transaction.quotePrice}`}
                 />
             )}
         </>
