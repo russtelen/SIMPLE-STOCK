@@ -5,7 +5,6 @@ import { getUser, getPosition } from '../../network';
 import StockItems from './StockItems';
 
 const Dashboard = ({ user }) => {
-    // const [transactions, setTransactions] = useState([]);
     const [postionResults, setPostionResults] = useState([]);
     const [rerender, setRerender] = useState(false);
 
@@ -51,6 +50,7 @@ const Dashboard = ({ user }) => {
                             </Text>
                         )}
                     </List>
+                    <Text>Portfolio Value: </Text>
                 </Content>
             </Container>
         </ScrollView>

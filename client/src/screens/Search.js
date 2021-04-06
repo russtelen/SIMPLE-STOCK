@@ -5,6 +5,7 @@ import finnhub from '../api/Finnub';
 import { EvilIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 // import { Button } from 'react-native-elements';
+import { API_KEY } from 'dotenv';
 
 export default function Search() {
     const [results, setResults] = useState();
@@ -13,7 +14,7 @@ export default function Search() {
     const searchAPI = async (data) => {
         console.log('term', term);
         const response = await finnhub.get(
-            `quote?symbol=${data}&token=c1jfqff48v6q1q0kpsi0`
+            `quote?symbol=${data}&token=${API_KEY}`
         );
         console.log('results', results);
         setResults(response.data.c);

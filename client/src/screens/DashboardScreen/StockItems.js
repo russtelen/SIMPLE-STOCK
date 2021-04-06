@@ -3,7 +3,7 @@ import { Text, StyleSheet, TextInput } from 'react-native';
 import { ListItem, Body, Button } from 'native-base';
 import finnhub from '../../api/Finnub';
 import { stockTransaction } from '../../network';
-// import { API_KEY } from '@env';
+import { API_KEY } from 'dotenv';
 
 const StockItems = ({ postionResult, setRerender }) => {
     const [amount, setAmount] = useState('');
@@ -14,7 +14,7 @@ const StockItems = ({ postionResult, setRerender }) => {
         (async () => {
             try {
                 const response = await finnhub.get(
-                    `quote?symbol=${postionResult.symbol}&token=c1jfqff48v6q1q0kpsi0`
+                    `quote?symbol=${postionResult.symbol}&token=${API_KEY}`
                 );
                 setCurrentPrice(response.data.c);
             } catch (error) {

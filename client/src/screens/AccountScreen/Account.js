@@ -29,12 +29,6 @@ const Account = ({ setToken }) => {
         (async () => {
             const result = await getUser();
             setUser(result.user);
-        })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            const result = await getUser();
             setTransactions(result.user.transactions);
         })();
     }, []);
