@@ -5,8 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import jwtDecode from "jwt-decode"
 import { Root } from "native-base"
 import { NativeRouter, Route } from "react-router-native"
-import Dashboard from "./src/screens/Dashboard"
-import Account from "./src/screens/Account"
+import Dashboard from "./src/screens/DashboardScreen/Dashboard"
+import Account from "./src/screens/AccountScreen/Account"
+import Search from "./src/screens/Search"
 import Header from "./src/components/Header"
 import FooterTabs from "./src/components/navigation/FooterTabs"
 
@@ -25,16 +26,13 @@ export default function App() {
       }
     }
     storeToken()
-    console.log(token)
   }, [token])
 
   //getting user info
   useEffect(() => {
     const user = token ? jwtDecode(token) : null
     setUser(user)
-    console.log(user)
   }, [token])
-
   return (
     <Root>
       <NativeRouter>
@@ -48,7 +46,9 @@ export default function App() {
             <Route exact path="/account">
               <Account user={user} setToken={setToken} />
             </Route>
-
+            <Route exact path="/search">
+              <Search user={user} setToken={setToken} />
+            </Route>
             <FooterTabs />
           </>
         ) : (
