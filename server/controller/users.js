@@ -3,6 +3,7 @@
 // =============================================
 const User = require("../models/Users")
 const { generateToken } = require("../utils/jwt")
+const { getCurrentPrice } = require("../api/finnhub")
 
 // =============================================
 // Logic
@@ -134,12 +135,26 @@ module.exports.getPortfolio = async (req, res) => {
           return r;
       }, {});
 
-      // tQ: get average price per share 
-      const positions = tradesBySymbol.map(t => ({
-          symbol : t.symbol,
+      // tQ: get average price per share,
+      //     query finnhub API for current price & build P/L based on it
+      let positions = []
+      const processPosition = async (t) => {
+        const currPrice = await getCurrentPrice(t.symbol)
+        console.log(currPrice)
+        const avgPrice = t.bottomLine / t.numSharesTotal
+        return {
+          symbol: t.symbol,
           numSharesTotal: t.numSharesTotal,
-          avgPricePerShare: t.bottomLine / t.numSharesTotal
-      }));
+          avgPricePerShare: avgPrice,
+          currPrice: currPrice,
+          profitLoss: currPrice * t.numSharesTotal - avgPrice * t.numSharesTotal
+        }
+      }
+
+      for (const t of tradesBySymbol) { 
+        console.log(t)
+        positions.push(processPosition(t))
+      }
 
       res.send({positions})
       return

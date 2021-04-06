@@ -101,9 +101,6 @@ const seedDb = async () => {
   user2.initialCash += transaction3.numShares * transaction3.quotePrice
   await user1.save()
   await user2.save()
-
-  const user1Updated = await User.findOne({ username: "russ" })
-  console.log("users seeded; user1 cash: " + user1Updated.email)
 }
 
 ;(async () => {
