@@ -4,7 +4,7 @@ import { ListItem, Body, Button } from 'native-base';
 import finnhub from '../../api/Finnub';
 import { stockTransaction } from '../../network';
 
-const TransactionItems = ({ transaction, setRerender }) => {
+const StockItems = ({ postionResult, setRerender }) => {
     const [amount, setAmount] = useState('');
     const [currentPrice, setCurrentPrice] = useState('');
 
@@ -13,7 +13,7 @@ const TransactionItems = ({ transaction, setRerender }) => {
         (async () => {
             try {
                 const response = await finnhub.get(
-                    `quote?symbol=${transaction.symbol}&token=c1jfqff48v6q1q0kpsi0`
+                    `quote?symbol=${postionResult.symbol}&token=c1jfqff48v6q1q0kpsi0`
                 );
                 setCurrentPrice(response.data.c);
             } catch (error) {
@@ -25,23 +25,13 @@ const TransactionItems = ({ transaction, setRerender }) => {
     //handling buy
     const handleBuy = async (data) => {
         try {
-            //only allow number input
-            const numericRegex = /^([0-9]{1,100})+$/;
-            if (numericRegex.test(amount)) {
-                alert(
-                    `Successsfully bought ${amount} share(s) at current price $${currentPrice}`
-                );
-            } else {
-                alert(`Invaild input!`);
-            }
-            await stockTransaction({
-                symbol: transaction.symbol,
-                numShares: amount,
-                quotePrice: -currentPrice,
-            });
+            const res = await stockTransaction(data);
             console.log(data);
-            setRerender((prev) => !prev);
-            setAmount('');
+            if (res) {
+                alert(res.message);
+                setRerender((prev) => !prev);
+                setAmount('');
+            }
         } catch (e) {
             console.log(e);
         }
@@ -50,43 +40,35 @@ const TransactionItems = ({ transaction, setRerender }) => {
     //handling sell
     const handleSell = async (data) => {
         try {
-            //only allow number input
-            const numericRegex = /^([0-9]{1,100})+$/;
-            if (numericRegex.test(amount)) {
-                alert(
-                    `Successsfully sold ${amount} share(s) at current price $${currentPrice}`
-                );
-            } else {
-                alert(`Invaild input!`);
+            const res = await stockTransaction(data);
+            if (res) {
+                alert(res.message);
+                setRerender((prev) => !prev);
+                setAmount('');
             }
-            await stockTransaction({
-                symbol: transaction.symbol,
-                numShares: amount,
-                quotePrice: currentPrice,
-            });
-            console.log(data);
-            setRerender((prev) => !prev);
-            setAmount('');
         } catch (e) {
             console.log(e);
         }
     };
 
     //turn total To 2 Demical
-    const total = transaction.avgPricePerShare * transaction.avgPricePerShare;
+    const total = postionResult.avgPricePerShare * postionResult.numSharesTotal;
     const totalTo2Demical = total.toFixed(2);
 
     return (
         <ListItem>
             <Body style={styles.body}>
-                <Text style={styles.text}>{transaction.symbol}</Text>
-                <Text style={styles.text}>${transaction.avgPricePerShare}</Text>
-                <Text style={styles.text}>{transaction.numSharesTotal}</Text>
+                <Text style={styles.text}>{postionResult.symbol}</Text>
+                <Text style={styles.text}>
+                    ${postionResult.avgPricePerShare.toFixed(2)}
+                </Text>
+                <Text style={styles.text}>{postionResult.numSharesTotal}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
                 <Text style={styles.text}>${currentPrice}</Text>
                 <TextInput
                     style={styles.textInputBox}
                     clearButtonMode="always"
+                    type="number"
                     keyboardType="number-pad"
                     value={amount}
                     onChangeText={(event) => setAmount(event)}
@@ -95,7 +77,7 @@ const TransactionItems = ({ transaction, setRerender }) => {
                     style={styles.button}
                     onPress={() =>
                         handleBuy({
-                            symbol: transaction.symbol,
+                            symbol: postionResult.symbol,
                             numShares: amount,
                             quotePrice: currentPrice,
                         })
@@ -107,8 +89,8 @@ const TransactionItems = ({ transaction, setRerender }) => {
                     style={styles.button}
                     onPress={() =>
                         handleSell({
-                            symbol: transaction.symbol,
-                            numShares: amount,
+                            symbol: postionResult.symbol,
+                            numShares: -amount,
                             quotePrice: currentPrice,
                         })
                     }
@@ -148,4 +130,4 @@ const styles = StyleSheet.create({
     },
     textInputBox: { borderWidth: 1, width: '12%' },
 });
-export default TransactionItems;
+export default StockItems;

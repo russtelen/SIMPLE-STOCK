@@ -2,25 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
 import { getUser, getPosition } from '../../network';
-import TransactionItems from '../DashboardScreen/TransactionItems';
+import StockItems from './StockItems';
 
 const Dashboard = ({ user }) => {
     // const [transactions, setTransactions] = useState([]);
-    const [postionResult, setPostionResult] = useState([]);
+    const [postionResults, setPostionResults] = useState([]);
     const [rerender, setRerender] = useState(false);
 
     useEffect(() => {
         (async () => {
             // const result = await getUser();
-            const postionResult = await getPosition();
+            const postionResults = await getPosition();
             // setTransactions(result.user.transactions);
-            setPostionResult(postionResult.positions);
+            setPostionResults(postionResults.positions);
         })();
     }, [rerender]);
 
     return (
         <ScrollView style={styles.scrollView}>
-            {/* {console.log(postionResult)} */}
             <Container style={{ width: '100%' }}>
                 <Content contentContainerStyle={{ flex: 1 }}>
                     <Text style={styles.greetingText}>Hi, {user.username}</Text>
@@ -32,20 +31,19 @@ const Dashboard = ({ user }) => {
                                 <Text style={styles.textHeader}>QTY</Text>
                                 <Text style={styles.textHeader}>Total</Text>
                                 <Text style={styles.textHeader}>
-                                    {' '}
                                     Current price
                                 </Text>
                                 <Text style={styles.textHeader}>Amount</Text>
                                 <Text style={styles.textHeader}>Option</Text>
                             </Body>
                         </ListItem>
-                        {postionResult.length > 0 ? (
+                        {postionResults.length > 0 ? (
                             <>
-                                {postionResult.map((transaction) => (
-                                    <TransactionItems
-                                        transaction={transaction}
+                                {postionResults.map((postionResult) => (
+                                    <StockItems
+                                        postionResult={postionResult}
                                         setRerender={setRerender}
-                                        key={transaction.symbol}
+                                        key={postionResult.symbol}
                                     />
                                 ))}
                             </>

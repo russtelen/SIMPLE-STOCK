@@ -56,9 +56,6 @@ const Account = ({ setToken }) => {
                     <List.Section style={styles.container}>
                         <List.Accordion
                             title="Profile Detail"
-                            // left={(props) => (
-                            //     <List.Icon {...props} icon="equal" />
-                            // )}
                             onPress={handlePress}
                         >
                             <ProfileDetail user={user} />
@@ -67,11 +64,8 @@ const Account = ({ setToken }) => {
                     <List.Section style={styles.container}>
                         <List.Accordion
                             title="Transaction History"
-                            // left={(props) => (
-                            //     <List.Icon {...props} icon="equal" />
-                            // )}
-                            // expanded={expanded}
                             onPress={handlePress}
+                            // style={{ flex: 1 }}
                         >
                             {transactions.map((transaction) => (
                                 <TransactionList
