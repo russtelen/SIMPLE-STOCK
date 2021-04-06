@@ -4,9 +4,13 @@
 const express = require("express")
 const router = express.Router()
 const { requireLogin } = require("../utils/middlewares")
-const { addToWatchlist } = require("../controller/watchlist")
+const {
+  addToWatchlist,
+  removeFromWatchlist,
+} = require("../controller/watchlist")
 // =============================================
 // ROUTES
 // =============================================
 router.route("/").post(requireLogin, addToWatchlist)
+router.route("/:stockId").delete(requireLogin, removeFromWatchlist)
 module.exports = router
