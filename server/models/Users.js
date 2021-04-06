@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const passportLocalMongoose = require("passport-local-mongoose")
 const transactionModel = require("./Transactions")
+const Stock = require("./Stocks")
 
 //==========================================
 // SET UP SCHEMA
@@ -17,10 +18,16 @@ const userSchema = new Schema({
   },
   // tQ: cash to make purchases
   initialCash: { type: Number },
-  // tQ: this would hold all the user's transactions; 
+  // tQ: this would hold all the user's transactions;
   //     calculating the sum by symbol would give the current portfolio/
   //     portfolio positions can also be calculated
-  transactions: [transactionModel.schema]
+  transactions: [transactionModel.schema],
+  watchlist: [
+    {
+      type: Object,
+      ref: "Stock",
+    },
+  ],
 })
 
 // this plugin adds a username, hash and salt field to store the username, the hashed password and the salt value.
