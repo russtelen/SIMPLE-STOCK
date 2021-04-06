@@ -20,8 +20,8 @@ module.exports.makeTransaction = async (req, res) => {
     //  3. Find user
     const user = await User.findById(userId)
     if (!user) {
-        res.send({ message: "User Not Found" })
-        return
+      res.send({ message: "User Not Found" })
+      return
     }
 
     //   4. Check if user has money, if none, return
@@ -48,22 +48,23 @@ module.exports.makeTransaction = async (req, res) => {
     }
 
     //   7.1 Check for purchase / sale
-    if (numShares===0) {
-        res.send({ message: "Transaction must be a purchase or a sale" })
-        return
+    if (numShares === 0) {
+      res.send({ message: "Transaction must be a purchase or a sale" })
+      return
     }
 
     //   7.2 For sales, check if there are enough shares to sell
     if (transactionPrice > 0) {
-        let totalShares = 0
-        user.transactions.map(t => {
-            if (t.symbol===symbol) numShares += t.totalShares
-        })
+      let totalShares = 0
+      user.transactions.map((t) => {
+        // if (t.symbol===symbol) numShares += t.totalShares
+        if (t.symbol === symbol) totalShares += t.numShares
+      })
 
-        if (totalShares < numShares) {
-            res.send({ message: "Insufficient Shares" })
-            return
-        }
+      if (totalShares < numShares) {
+        res.send({ message: "Insufficient Shares" })
+        return
+      }
     }
     //   8. Push transaction in transactions array of user (user.transactions)
     user.transactions.push(transaction)
