@@ -7,6 +7,7 @@ const { connectDb } = require("./models/db")
 const mongoose = require("mongoose")
 const User = require("./models/Users")
 const Transaction = require("./models/Transactions")
+const Stock = require("./models/Stocks")
 
 //=============================
 // CONFIG
@@ -21,6 +22,7 @@ connectDb()
 const seedDb = async () => {
   await User.deleteMany({})
   await Transaction.deleteMany({})
+  await Stock.deleteMany({})
   console.log("seeding users")
 
   // Create new users
@@ -66,6 +68,35 @@ const seedDb = async () => {
     transactionDateTime: 1617145438869,
   })
 
+  // Create Stocks (to watch)
+  //-------------------
+  let stock1 = new Stock({
+    symbol: "GOOGL",
+    currentPrice: 2200,
+  })
+
+  let stock2 = new Stock({
+    symbol: "KOPN",
+    currentPrice: 350,
+  })
+
+  let stock3 = new Stock({
+    symbol: "KIRK",
+    currentPrice: 67,
+  })
+
+  let stock4 = new Stock({
+    symbol: "BGFV",
+    currentPrice: 89,
+  })
+
+  // Save stocks
+  //-------------------
+  await stock1.save()
+  await stock2.save()
+  await stock3.save()
+  await stock4.save()
+
   // Save transactions
   //-------------------
   await transaction1.save()
@@ -79,6 +110,9 @@ const seedDb = async () => {
     {
       $push: {
         transactions: transaction1,
+        watchlist: {
+          $each: [stock1, stock2],
+        },
       },
     }
   )
@@ -89,6 +123,9 @@ const seedDb = async () => {
       $push: {
         transactions: {
           $each: [transaction2, transaction3],
+        },
+        watchlist: {
+          $each: [stock3, stock4],
         },
       },
     }
