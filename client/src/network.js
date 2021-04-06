@@ -32,7 +32,6 @@ export const registerUser = async (data) => {
             url: 'https://stealth-simple.herokuapp.com/api/users/register',
             data,
         });
-        console.log(res.data);
         return res.data;
     } catch (e) {
         console.log(e);

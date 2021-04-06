@@ -25,14 +25,12 @@ export default function App() {
             }
         };
         storeToken();
-        // console.log(token);
     }, [token]);
 
     //getting user info
     useEffect(() => {
         const user = token ? jwtDecode(token) : null;
         setUser(user);
-        // console.log(user);
     }, [token]);
     return (
         <NativeRouter>

@@ -11,9 +11,7 @@ const Dashboard = ({ user }) => {
 
     useEffect(() => {
         (async () => {
-            // const result = await getUser();
             const postionResults = await getPosition();
-            // setTransactions(result.user.transactions);
             setPostionResults(postionResults.positions);
         })();
     }, [rerender]);
@@ -37,7 +35,7 @@ const Dashboard = ({ user }) => {
                                 <Text style={styles.textHeader}>Option</Text>
                             </Body>
                         </ListItem>
-                        {postionResults.length > 0 ? (
+                        {postionResults?.length > 0 ? (
                             <>
                                 {postionResults.map((postionResult) => (
                                     <StockItems

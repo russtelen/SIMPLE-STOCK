@@ -3,6 +3,7 @@ import { Text, StyleSheet, TextInput } from 'react-native';
 import { ListItem, Body, Button } from 'native-base';
 import finnhub from '../../api/Finnub';
 import { stockTransaction } from '../../network';
+// import { API_KEY } from '@env';
 
 const StockItems = ({ postionResult, setRerender }) => {
     const [amount, setAmount] = useState('');
@@ -60,7 +61,7 @@ const StockItems = ({ postionResult, setRerender }) => {
             <Body style={styles.body}>
                 <Text style={styles.text}>{postionResult.symbol}</Text>
                 <Text style={styles.text}>
-                    ${postionResult.avgPricePerShare.toFixed(2)}
+                    ${postionResult.avgPricePerShare}
                 </Text>
                 <Text style={styles.text}>{postionResult.numSharesTotal}</Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
@@ -79,7 +80,7 @@ const StockItems = ({ postionResult, setRerender }) => {
                         handleBuy({
                             symbol: postionResult.symbol,
                             numShares: amount,
-                            quotePrice: currentPrice,
+                            quotePrice: -currentPrice,
                         })
                     }
                 >
@@ -90,7 +91,7 @@ const StockItems = ({ postionResult, setRerender }) => {
                     onPress={() =>
                         handleSell({
                             symbol: postionResult.symbol,
-                            numShares: -amount,
+                            numShares: amount,
                             quotePrice: currentPrice,
                         })
                     }

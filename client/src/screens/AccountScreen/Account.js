@@ -35,9 +35,7 @@ const Account = ({ setToken }) => {
     useEffect(() => {
         (async () => {
             const result = await getUser();
-            // const postionResult = await getPosition();
             setTransactions(result.user.transactions);
-            // setPostionResult(postionResult.positions);
         })();
     }, []);
 
