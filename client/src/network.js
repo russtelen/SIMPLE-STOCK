@@ -57,7 +57,7 @@ export async function getUser() {
         console.log(token);
         const res = await axios({
             method: 'get',
-            url: '  https://stealth-simple.herokuapp.com/api/users/financials',
+            url: 'https://stealth-simple.herokuapp.com/api/users/financials',
             headers: { Authorization: `Bearer ${token}` },
         });
         return res.data;

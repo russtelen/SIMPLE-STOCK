@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import Auth from '../client/src/screens/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
+import { Root } from 'native-base';
 import { NativeRouter, Route } from 'react-router-native';
 import Dashboard from './src/screens/Dashboard';
 import Account from './src/screens/Account';
@@ -33,30 +34,32 @@ export default function App() {
         setUser(user);
     }, [token]);
     return (
-        <NativeRouter>
-            {token ? (
-                <>
-                    <Header />
+        <Root>
+            <NativeRouter>
+                {token ? (
+                    <>
+                        <Header />
 
-                    <Route exact path="/dashboard">
-                        <Dashboard user={user} />
-                    </Route>
-                    <Route exact path="/account">
-                        <Account user={user} setToken={setToken} />
-                    </Route>
-                    <Route exact path="/search">
-                        <Search user={user} setToken={setToken} />
-                    </Route>
-                    <FooterTabs />
-                </>
-            ) : (
-                <View style={styles.container}>
-                    <Route exact path="/">
-                        <Auth setToken={setToken} name="Auth" />
-                    </Route>
-                </View>
-            )}
-        </NativeRouter>
+                        <Route exact path="/dashboard">
+                            <Dashboard user={user} />
+                        </Route>
+                        <Route exact path="/account">
+                            <Account user={user} setToken={setToken} />
+                        </Route>
+                        <Route exact path="/search">
+                            <Search user={user} setToken={setToken} />
+                        </Route>
+                        <FooterTabs />
+                    </>
+                ) : (
+                    <View style={styles.container}>
+                        <Route exact path="/">
+                            <Auth user={user} setToken={setToken} name="Auth" />
+                        </Route>
+                    </View>
+                )}
+            </NativeRouter>
+        </Root>
     );
 }
 

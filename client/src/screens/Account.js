@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { Container, Content, Text } from 'native-base';
+import { Container, Content, Text, Toast } from 'native-base';
 import { useHistory } from 'react-router-native';
 import { logoutUser, getUser } from '../network';
 import { List } from 'react-native-paper';
@@ -23,7 +23,13 @@ const Account = ({ setToken }) => {
         if (res) {
             setToken(null);
             history.push('/');
-            alert(res.message);
+            // show toast
+            Toast.show({
+                text: res.message,
+                position: 'bottom',
+                type: 'success',
+                duration: 1500,
+            });
         }
     };
 

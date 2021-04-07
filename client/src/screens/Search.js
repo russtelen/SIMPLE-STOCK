@@ -6,20 +6,22 @@ import {
     StyleSheet,
     Button,
     TouchableOpacity,
+    SafeAreaView,
 } from 'react-native';
 import finnhub from '../api/Finnub';
-// import { API_KEY } from '@env';
 import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { API_KEY } from 'dotenv';
-import { addToWatchlist, getUser } from '../network';
+import { API_KEY } from '@env';
+import { addToWatchlist, getUser, stockTransaction } from '../network';
 
 export default function Search() {
     const [results, setResults] = useState();
     const [term, setTerm] = useState();
     const [userWatchList, setUserWatchList] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
+    const [numberOfShares, setNumberOfShares] = useState(1);
+    const [ticker, setTicker] = useState('');
 
     //click the like button to add to watchlist
     const likeCliked = async (data) => {
@@ -41,6 +43,10 @@ export default function Search() {
         }
     };
 
+    useEffect(() => {
+        console.log('results', results);
+    }, [results]);
+
     //fetch user watchlist
     useEffect(() => {
         (async () => {
@@ -50,17 +56,43 @@ export default function Search() {
     }, [isAdded]);
 
     const searchAPI = async (data) => {
-        // console.log('term', term);
+        console.log('term', term);
         const response = await finnhub.get(
             `quote?symbol=${data}&token=${API_KEY}`
         );
-        // console.log('results', results);
+        //console.log("results", results)
         setResults(response.data.c);
+        setTicker(term);
     };
 
-    useEffect(() => {
-        // console.log('results', results);
-    }, [results]);
+    //handling buy
+    const handleBuy = async (data) => {
+        console.log('data', data);
+        console.log('results', results);
+        try {
+            const res = await stockTransaction(data);
+            console.log(data);
+            if (res) {
+                alert(res.message);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    //handling sell
+    const handleSell = async (data) => {
+        console.log('data', data);
+        console.log('results', results);
+        try {
+            const res = await stockTransaction(data);
+            if (res) {
+                alert(res.message);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <>
@@ -74,18 +106,54 @@ export default function Search() {
                             onChangeText={(event) => setTerm(event)}
                         />
                         <Button
+                            buttonStyle={{ backgroundColor: '#ffb347' }}
                             styles={styles.button}
                             title="SEARCH"
                             onPress={() => searchAPI(term)}
                         />
                     </View>
                     <View style={styles.section2}>
+                        <Text style={{ margin: 15 }}> {ticker}</Text>
                         <Text style={{ margin: 15 }}> ${results}</Text>
-                        <View style={{ margin: 5 }}>
-                            <Button styles={styles.button} title="BUY" />
+                        <View style={styles.numberOfShares}>
+                            <TextInput
+                                placeholder="# of shares"
+                                style={styles.textInputBox}
+                                clearButtonMode="always"
+                                type="number"
+                                keyboardType="number-pad"
+                                value={numberOfShares}
+                                onChangeText={(event) =>
+                                    setNumberOfShares(event)
+                                }
+                            ></TextInput>
                         </View>
                         <View style={{ margin: 5 }}>
-                            <Button styles={styles.button} title="SELL" />
+                            <Button
+                                buttonStyle={{ backgroundColor: '#ffb347' }}
+                                styles={styles.button}
+                                title="BUY"
+                                onPress={() =>
+                                    handleBuy({
+                                        symbol: ticker,
+                                        numShares: numberOfShares,
+                                        quotePrice: -results,
+                                    })
+                                }
+                            />
+                        </View>
+                        <View style={{ margin: 5 }}>
+                            <Button
+                                buttonStyle={{ backgroundColor: '#ffb347' }}
+                                title="SELL"
+                                onPress={() =>
+                                    handleSell({
+                                        symbol: ticker,
+                                        numShares: numberOfShares,
+                                        quotePrice: results,
+                                    })
+                                }
+                            />
                         </View>
                         <TouchableOpacity
                             onPress={() =>
@@ -114,6 +182,7 @@ export default function Search() {
                             onChangeText={(event) => setTerm(event)}
                         />
                         <Button
+                            buttonStyle={{ backgroundColor: '#ffb347' }}
                             styles={styles.button}
                             title="SEARCH"
                             onPress={() => searchAPI(term)}
@@ -137,7 +206,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         borderWidth: 1,
         borderColor: '#20232a',
         borderRadius: 6,
@@ -151,9 +220,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-
         width: 300,
         height: 100,
+    },
+
+    numberOfShares: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#20232a',
+        borderRadius: 6,
+        width: 78,
+        height: 30,
+        marginRight: 8,
     },
 
     input: {
@@ -173,5 +254,6 @@ const styles = StyleSheet.create({
     button: {
         // flex: 1,
         margin: 15,
+        color: '#1E6738',
     },
 });
