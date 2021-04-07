@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
 import { getUser, getPosition } from '../network';
 import StockItems from '../components/DashboardPage/StockItems';
@@ -7,11 +7,12 @@ import StockItems from '../components/DashboardPage/StockItems';
 const Dashboard = ({ user }) => {
     const [postionResults, setPostionResults] = useState([]);
     const [rerender, setRerender] = useState(false);
+    const [positionDidLoad, setPositionDidLoad] = useState(false);
 
     useEffect(() => {
         (async () => {
             const postionResults = await getPosition();
-            const result = await getUser();
+            postionResults ? setPositionDidLoad(true) : null;
             setPostionResults(postionResults?.positions);
         })();
     }, [rerender]);
@@ -35,20 +36,32 @@ const Dashboard = ({ user }) => {
                                 <Text style={styles.textHeader}>Option</Text>
                             </Body>
                         </ListItem>
-                        {postionResults?.length > 0 ? (
+                        {positionDidLoad ? (
                             <>
-                                {postionResults.map((postionResult) => (
-                                    <StockItems
-                                        postionResult={postionResult}
-                                        setRerender={setRerender}
-                                        key={postionResult.symbol}
-                                    />
-                                ))}
+                                {postionResults.length > 0 ? (
+                                    <>
+                                        {postionResults.map((postionResult) => (
+                                            <StockItems
+                                                postionResult={postionResult}
+                                                setRerender={setRerender}
+                                                key={postionResult.symbol}
+                                            />
+                                        ))}
+                                    </>
+                                ) : (
+                                    <Text style={styles.noTransText}>
+                                        You have no stockTransaction
+                                    </Text>
+                                )}
                             </>
                         ) : (
-                            <Text style={styles.noTransText}>
-                                You have no transaction!
-                            </Text>
+                            <ActivityIndicator
+                                style={{
+                                    marginTop: 30,
+                                }}
+                                size="large"
+                                color="#FF8C00"
+                            />
                         )}
                     </List>
                 </Content>
