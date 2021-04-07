@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
-import { getUser, getPosition } from '../../network';
-import StockItems from './StockItems';
+import { getUser, getPosition } from '../network';
+import StockItems from '../components/DashboardPage/StockItems';
 
 const Dashboard = ({ user }) => {
     const [postionResults, setPostionResults] = useState([]);

@@ -1,15 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View, StyleSheet, Button } from 'react-native';
+import {
+    Text,
+    TextInput,
+    View,
+    StyleSheet,
+    Button,
+    TouchableOpacity,
+} from 'react-native';
 import finnhub from '../api/Finnub';
 // import { API_KEY } from '@env';
 import { EvilIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 // import { Button } from 'react-native-elements';
 import { API_KEY } from 'dotenv';
+import { addToWatchlist, getUser } from '../network';
 
 export default function Search() {
     const [results, setResults] = useState();
     const [term, setTerm] = useState();
+    const [isLiked, setIsLiked] = useState(false);
+    const [userWatchList, setUserWatchList] = useState([]);
+
+    //click the like button to add to watchlist
+    const likeCliked = async (data) => {
+        try {
+            if (isLiked == false) {
+                const res = await addToWatchlist(data);
+                if (res) {
+                    alert(res.message);
+                }
+            }
+            setIsLiked((current) => !current);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    //fetch user watchlist
+    useEffect(() => {
+        (async () => {
+            const result = await getUser();
+            setUserWatchList(result.user.watchlist);
+            console.log(userWatchList);
+        })();
+    }, []);
+
+    const newWatchlist = userWatchList.filter(function (w) {
+        if (term) {
+            return w.symbol == term;
+        }
+    });
+
+    console.log(newWatchlist);
+    // const newWatchlistId = newWatchlist.map((w) => w._id);
+
+    // const watchlistIterator = newWatchlistId.values();
+    // for (const value of watchlistIterator) {
+    //     // setStockId(value);
+    //     // console.log(stockId);
+    //     return value;
+    // }
 
     const searchAPI = async (data) => {
         console.log('term', term);
@@ -18,6 +69,7 @@ export default function Search() {
         );
         console.log('results', results);
         setResults(response.data.c);
+        setIsLiked(false);
     };
 
     useEffect(() => {
@@ -49,6 +101,30 @@ export default function Search() {
                         <View style={{ margin: 5 }}>
                             <Button styles={styles.button} title="SELL" />
                         </View>
+                        <TouchableOpacity
+                            onPress={() =>
+                                likeCliked({
+                                    symbol: term,
+                                    currentPrice: results,
+                                })
+                            }
+                        >
+                            {isLiked ? (
+                                <AntDesign
+                                    name="heart"
+                                    style={{ marginLeft: 20 }}
+                                    size={30}
+                                    color="black"
+                                />
+                            ) : (
+                                <AntDesign
+                                    name="hearto"
+                                    style={{ marginLeft: 20 }}
+                                    size={30}
+                                    color="black"
+                                />
+                            )}
+                        </TouchableOpacity>
                     </View>
                 </View>
             ) : (

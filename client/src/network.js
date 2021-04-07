@@ -99,3 +99,18 @@ export const stockTransaction = async (data) => {
         console.log(e);
     }
 };
+
+export const addToWatchlist = async (data) => {
+    try {
+        const token = await getToken();
+        const res = await axios({
+            method: 'post',
+            url: 'https://stealth-simple.herokuapp.com/api/watchlist',
+            headers: { Authorization: `Bearer ${token}` },
+            data,
+        });
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+};

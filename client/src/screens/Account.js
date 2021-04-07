@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import { useHistory } from 'react-router-native';
-import { logoutUser, getUser } from '../../network';
+import { logoutUser, getUser } from '../network';
 import { List } from 'react-native-paper';
-import TransactionList from './TransactionList';
-import ProfileDetail from './ProfileDetail';
+import TransactionList from '../components/AccountPage/TransactionList';
+import ProfileDetail from '../components/AccountPage/ProfileDetail';
 
 const Account = ({ setToken }) => {
     const history = useHistory();
