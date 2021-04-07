@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { List } from 'react-native-paper';
-import { API_KEY } from 'dotenv';
+import { API_KEY } from '@env';
 import finnhub from '../../api/Finnub';
 import { AntDesign } from '@expo/vector-icons';
 import { deleteWatchlist } from '../../network';
