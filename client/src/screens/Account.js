@@ -6,10 +6,12 @@ import { logoutUser, getUser } from '../network';
 import { List } from 'react-native-paper';
 import TransactionList from '../components/AccountPage/TransactionList';
 import ProfileDetail from '../components/AccountPage/ProfileDetail';
+import WatchList from '../components/AccountPage/WatchList';
 
 const Account = ({ setToken }) => {
     const history = useHistory();
     const [user, setUser] = useState({});
+    const [watchlists, setWatchlists] = useState([]);
     const [expanded, setExpanded] = useState(true);
 
     const handlePress = () => setExpanded(!expanded);
@@ -29,6 +31,7 @@ const Account = ({ setToken }) => {
         (async () => {
             const result = await getUser();
             setUser(result.user);
+            setWatchlists(result.user.watchlist);
             setTransactions(result.user.transactions);
         })();
     }, []);
@@ -45,6 +48,7 @@ const Account = ({ setToken }) => {
                     <Text style={styles.text}>
                         Account balance: ${user?.initialCash?.toFixed(2)}
                     </Text>
+                    {/* ------------------Profil detail ----------------------- */}
                     <List.Section style={styles.container}>
                         <List.Accordion
                             title="Profile Detail"
@@ -53,6 +57,7 @@ const Account = ({ setToken }) => {
                             <ProfileDetail user={user} />
                         </List.Accordion>
                     </List.Section>
+                    {/* ------------------Transaction History ----------------------- */}
                     <List.Section style={styles.container}>
                         <List.Accordion
                             title="Transaction History"
@@ -67,6 +72,23 @@ const Account = ({ setToken }) => {
                             ))}
                         </List.Accordion>
                     </List.Section>
+                    {/* ------------------Watch List ----------------------- */}
+                    <List.Section style={styles.container}>
+                        <List.Accordion
+                            title="Watch List"
+                            onPress={handlePress}
+                            // style={{ flex: 1 }}
+                        >
+                            {watchlists.map((watchlist) => (
+                                <WatchList
+                                    watchlist={watchlist}
+                                    key={watchlist._id}
+                                />
+                            ))}
+                        </List.Accordion>
+                    </List.Section>
+
+                    {/* ------------------log out button ----------------------- */}
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {

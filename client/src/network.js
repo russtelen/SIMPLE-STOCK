@@ -115,14 +115,14 @@ export const addToWatchlist = async (data) => {
     }
 };
 
-export const deleteWatchlist = async ({ data, stockId }) => {
+export const deleteWatchlist = async ({ symbol, stockId }) => {
     try {
         const token = await getToken();
         const res = await axios({
             method: 'delete',
             url: `https://stealth-simple.herokuapp.com/api/watchlist/${stockId}`,
             headers: { Authorization: `Bearer ${token}` },
-            data,
+            symbol,
         });
         return res.data;
     } catch (e) {

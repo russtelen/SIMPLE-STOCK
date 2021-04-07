@@ -194,7 +194,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { API_KEY } from 'dotenv';
-import { addToWatchlist, getUser } from '../network';
+import { addToWatchlist, getUser, deleteWatchlist } from '../network';
 
 export default function Search() {
     const [results, setResults] = useState();
@@ -202,20 +202,7 @@ export default function Search() {
     const [userWatchList, setUserWatchList] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
 
-    //click the like button to add to watchlist
-    const likeCliked = async (data) => {
-        try {
-            if (isAdded == false) {
-                const res = await addToWatchlist(data);
-                alert(res.message);
-            }
-            setIsAdded((prev) => !prev);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    //fetch user watchlist
+    // fetch user watchlist
     useEffect(() => {
         (async () => {
             const result = await getUser();
@@ -223,19 +210,61 @@ export default function Search() {
         })();
     }, [isAdded]);
 
+    //fetch current price from finnhib
     const searchAPI = async (data) => {
-        // console.log('term', term);
         const response = await finnhub.get(
             `quote?symbol=${data}&token=${API_KEY}`
         );
-        // console.log('results', results);
         setResults(response.data.c);
-        setIsAdded(false);
+
+        //check if ticker already in the watchlist
+        const index = userWatchList.findIndex(
+            (watchList) => watchList.symbol == term
+        );
+        if (index !== -1) {
+            setIsAdded(true);
+        } else {
+            setIsAdded(false);
+        }
     };
 
-    useEffect(() => {
-        // console.log('results', results);
-    }, [results]);
+    useEffect(() => {}, [results]);
+
+    //click the like button to add to watchlist
+    const addCliked = async (data) => {
+        try {
+            // if ticker has not been added  -> add to watchlist
+            if (isAdded == false) {
+                const res = await addToWatchlist(data);
+                if (res) alert(res.message);
+            } else {
+                alert('have been deleted only watchlist');
+                // const deleteRes = await deleteWatchlist({
+                //     symbol: term,
+                // stockId: w._id,
+                // });
+            }
+            setIsAdded((prev) => !prev);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    // const newWatchlist = userWatchList.filter(function (w) {
+    //     if (term) {
+    //         return w.symbol == term;
+    //     }
+    // });
+
+    // console.log(newWatchlist);
+    // newWatchlist.map((w) => <Text>{w._id}</Text>);
+
+    // const watchlistIterator = newWatchlistId.values();
+    // for (const value of watchlistIterator) {
+    //     // setStockId(value);
+    //     // console.log(stockId);
+    //     return value;
+    // }
 
     return (
         <>
@@ -262,11 +291,13 @@ export default function Search() {
                         <View style={{ margin: 5 }}>
                             <Button styles={styles.button} title="SELL" />
                         </View>
+
                         <TouchableOpacity
                             onPress={() =>
-                                likeCliked({
+                                addCliked({
                                     symbol: term,
                                     currentPrice: results,
+                                    // stockId: w._id,
                                 })
                             }
                         >
@@ -274,14 +305,14 @@ export default function Search() {
                                 <AntDesign
                                     name="heart"
                                     size={24}
-                                    color="black"
+                                    color="#f42f4c"
                                     style={{ marginLeft: 20 }}
                                 />
                             ) : (
                                 <AntDesign
                                     name="hearto"
                                     size={24}
-                                    color="black"
+                                    color="#f42f4c"
                                     style={{ marginLeft: 20 }}
                                 />
                             )}
@@ -349,13 +380,11 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     icon: {
-        // flex: 1,
         marginHorizontal: 15,
         fontSize: 50,
         marginHorizontal: 15,
     },
     button: {
-        // flex: 1,
         margin: 15,
     },
 });
