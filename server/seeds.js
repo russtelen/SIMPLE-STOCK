@@ -39,11 +39,18 @@ const seedDb = async () => {
     initialCash: 50000,
     transactions: [],
   })
+  let user3 = new User({
+    email: "mahmantony@gmail.com",
+    username: "tony",
+    initialCash: 50000,
+    transactions: [],
+  })
 
   // Save/Register Users
   //-------------------
   await User.register(user1, "password")
   await User.register(user2, "password")
+  await User.register(user3, "password")
 
   // Create transactions
   //-------------------
@@ -65,6 +72,27 @@ const seedDb = async () => {
     symbol: "TSLA",
     numShares: 325,
     quotePrice: 362.1,
+    transactionDateTime: 1617145438869,
+  })
+
+  let transaction4 = new Transaction({
+    symbol: "GME",
+    numShares: 30,
+    quotePrice: -200,
+    transactionDateTime: 1617145438869,
+  })
+
+  let transaction5 = new Transaction({
+    symbol: "GME",
+    numShares: 24,
+    quotePrice: 15.1,
+    transactionDateTime: 1617145438869,
+  })
+
+  let transaction6 = new Transaction({
+    symbol: "GME",
+    numShares: 2,
+    quotePrice: -190,
     transactionDateTime: 1617145438869,
   })
 
@@ -102,6 +130,9 @@ const seedDb = async () => {
   await transaction1.save()
   await transaction2.save()
   await transaction3.save()
+  await transaction4.save()
+  await transaction5.save()
+  await transaction6.save()
 
   // Push transactions to users
   //-------------------
@@ -131,13 +162,35 @@ const seedDb = async () => {
     }
   )
 
+
+  await User.updateOne(
+    { _id: user3 },
+    {
+      $push: {
+        transactions: {
+          $each: [transaction1, transaction2, transaction3, transaction4, transaction5, transaction6],
+        },
+        watchlist: {
+          $each: [stock1, stock4],
+        },
+      },
+    }
+  )
+
   // Update Money of each user
   //-------------------
   user1.initialCash += transaction1.numShares * transaction1.quotePrice
   user2.initialCash += transaction2.numShares * transaction2.quotePrice
   user2.initialCash += transaction3.numShares * transaction3.quotePrice
+  user3.initialCash += transaction1.numShares * transaction1.quotePrice
+  user3.initialCash += transaction2.numShares * transaction2.quotePrice
+  user3.initialCash += transaction3.numShares * transaction3.quotePrice
+  user3.initialCash += transaction4.numShares * transaction4.quotePrice
+  user3.initialCash += transaction5.numShares * transaction5.quotePrice
+  user3.initialCash += transaction6.numShares * transaction6.quotePrice
   await user1.save()
   await user2.save()
+  await user3.save()
 }
 
 ;(async () => {
