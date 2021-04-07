@@ -50,15 +50,13 @@ const Dashboard = ({ user }) => {
                                     </>
                                 ) : (
                                     <Text style={styles.noTransText}>
-                                        You have no stockTransaction
+                                        You have no transaction!
                                     </Text>
                                 )}
                             </>
                         ) : (
                             <ActivityIndicator
-                                style={{
-                                    marginTop: 30,
-                                }}
+                                style={styles.loadingIcon}
                                 size="large"
                                 color="#FF8C00"
                             />
@@ -89,6 +87,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 13,
+    },
+    loadingIcon: {
+        marginTop: 30,
     },
 });
 
