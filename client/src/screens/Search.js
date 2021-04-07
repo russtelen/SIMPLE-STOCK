@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, StyleSheet, SafeAreaView} from 'react-native';
 import finnhub from '../api/Finnub'
-import { API_KEY } from "dotenv";
+import { API_KEY } from "@env";
 import {EvilIcons} from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import { Button } from 'react-native-elements';
