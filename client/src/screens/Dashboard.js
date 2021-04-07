@@ -7,13 +7,11 @@ import StockItems from '../components/DashboardPage/StockItems';
 const Dashboard = ({ user }) => {
     const [postionResults, setPostionResults] = useState([]);
     const [rerender, setRerender] = useState(false);
-    const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
         (async () => {
             const postionResults = await getPosition();
             const result = await getUser();
-            setUserInfo(result.user);
             setPostionResults(postionResults?.positions);
         })();
     }, [rerender]);
@@ -53,7 +51,6 @@ const Dashboard = ({ user }) => {
                             </Text>
                         )}
                     </List>
-                    <Text>Portfolio Value: ${userInfo?.initialCash}</Text>
                 </Content>
             </Container>
         </ScrollView>
