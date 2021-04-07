@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, TextInput } from 'react-native';
-import { ListItem, Body, Button } from 'native-base';
+import { Text, StyleSheet, TextInput, View } from 'react-native';
+import { ListItem, Body, Button, Toast } from 'native-base';
 import finnhub from '../../api/Finnub';
 import { stockTransaction } from '../../network';
 import { API_KEY } from '@env';
@@ -27,7 +27,6 @@ const StockItems = ({ postionResult, setRerender }) => {
     const handleBuy = async (data) => {
         try {
             const res = await stockTransaction(data);
-            console.log(data);
             if (res) {
                 Toast.show({
                     text: res.message,
@@ -71,9 +70,11 @@ const StockItems = ({ postionResult, setRerender }) => {
             <Body style={styles.body}>
                 <Text style={styles.text}>{postionResult.symbol}</Text>
                 <Text style={styles.text}>
-                    ${postionResult.avgPricePerShare}
+                    ${postionResult?.avgPricePerShare?.toFixed(2)}
                 </Text>
-                <Text style={styles.text}>{postionResult.numSharesTotal}</Text>
+                <Text style={styles.qtyText}>
+                    {postionResult.numSharesTotal}
+                </Text>
                 <Text style={styles.text}>${totalTo2Demical}</Text>
                 <Text style={styles.text}>${currentPrice}</Text>
                 <TextInput
@@ -84,30 +85,32 @@ const StockItems = ({ postionResult, setRerender }) => {
                     value={amount}
                     onChangeText={(event) => setAmount(event)}
                 ></TextInput>
-                <Button
-                    style={styles.button}
-                    onPress={() =>
-                        handleBuy({
-                            symbol: postionResult.symbol,
-                            numShares: amount,
-                            quotePrice: -currentPrice,
-                        })
-                    }
-                >
-                    <Text style={styles.bottonText}>Buy</Text>
-                </Button>
-                <Button
-                    style={styles.button}
-                    onPress={() =>
-                        handleSell({
-                            symbol: postionResult.symbol,
-                            numShares: amount,
-                            quotePrice: currentPrice,
-                        })
-                    }
-                >
-                    <Text style={styles.bottonText}>Sell</Text>
-                </Button>
+                <View style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Button
+                        style={styles.buyButton}
+                        onPress={() =>
+                            handleBuy({
+                                symbol: postionResult.symbol,
+                                numShares: amount,
+                                quotePrice: -currentPrice,
+                            })
+                        }
+                    >
+                        <Text style={styles.bottonText}>Buy</Text>
+                    </Button>
+                    <Button
+                        style={styles.sellButton}
+                        onPress={() =>
+                            handleSell({
+                                symbol: postionResult.symbol,
+                                numShares: amount,
+                                quotePrice: currentPrice,
+                            })
+                        }
+                    >
+                        <Text style={styles.bottonText}>Sell</Text>
+                    </Button>
+                </View>
             </Body>
         </ListItem>
     );
@@ -125,10 +128,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
-    button: {
-        backgroundColor: '#ffb347',
-        padding: '1%',
-        marginLeft: '1%',
+    buyButton: {
+        backgroundColor: 'green',
+        padding: '5%',
+        marginVertical: '10%',
+        width: 45,
+        height: 20,
+    },
+    sellButton: {
+        backgroundColor: 'red',
+        padding: '5%',
+        marginVertical: '10%',
+        width: 45,
+        height: 20,
     },
     bottonText: {
         color: '#FFFF',
@@ -136,9 +148,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text: {
-        width: '14%',
+        width: '15%',
+        textAlign: 'center',
+        fontSize: 13,
+    },
+    qtyText: {
+        width: '8%',
         textAlign: 'center',
     },
-    textInputBox: { borderWidth: 1, width: '12%' },
+    textInputBox: { borderWidth: 1, width: '6%' },
 });
 export default StockItems;

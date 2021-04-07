@@ -27,7 +27,7 @@ const Dashboard = ({ user }) => {
                             <Body style={styles.body}>
                                 <Text style={styles.textHeader}>Ticker</Text>
                                 <Text style={styles.textHeader}>Price</Text>
-                                <Text style={styles.textHeader}>QTY</Text>
+                                <Text style={styles.qtyText}>QTY</Text>
                                 <Text style={styles.textHeader}>Total</Text>
                                 <Text style={styles.textHeader}>
                                     Current price
@@ -90,6 +90,9 @@ const styles = StyleSheet.create({
     },
     loadingIcon: {
         marginTop: 30,
+    },
+    qtyText: {
+        width: '8%',
     },
 });
 

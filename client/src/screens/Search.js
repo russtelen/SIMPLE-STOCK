@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
 } from 'react-native';
+import { Toast } from 'native-base';
 import finnhub from '../api/Finnub';
 import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
@@ -33,19 +34,27 @@ export default function Search() {
             if (index == -1) {
                 const res = await addToWatchlist(data);
                 setIsAdded((prev) => !prev);
-                alert(res.message);
+                Toast.show({
+                    text: res.message,
+                    position: 'bottom',
+                    type: 'success',
+                    duration: 1500,
+                });
                 console.log(isAdded);
             } else {
-                alert(`You have already added ${term} into the watchlist!`);
+                Toast.show({
+                    text: `You have already added ${term} into the watchlist!`,
+                    position: 'bottom',
+                    type: 'danger',
+                    duration: 1500,
+                });
             }
         } catch (e) {
             console.log(e);
         }
     };
 
-    useEffect(() => {
-        console.log('results', results);
-    }, [results]);
+    useEffect(() => {}, [results]);
 
     //fetch user watchlist
     useEffect(() => {
@@ -56,7 +65,6 @@ export default function Search() {
     }, [isAdded]);
 
     const searchAPI = async (data) => {
-        console.log('term', term);
         const response = await finnhub.get(
             `quote?symbol=${data}&token=${API_KEY}`
         );
@@ -67,13 +75,16 @@ export default function Search() {
 
     //handling buy
     const handleBuy = async (data) => {
-        console.log('data', data);
-        console.log('results', results);
         try {
             const res = await stockTransaction(data);
             console.log(data);
             if (res) {
-                alert(res.message);
+                Toast.show({
+                    text: res.message,
+                    position: 'bottom',
+                    type: 'success',
+                    duration: 1500,
+                });
             }
         } catch (e) {
             console.log(e);
@@ -82,12 +93,15 @@ export default function Search() {
 
     //handling sell
     const handleSell = async (data) => {
-        console.log('data', data);
-        console.log('results', results);
         try {
             const res = await stockTransaction(data);
             if (res) {
-                alert(res.message);
+                Toast.show({
+                    text: res.message,
+                    position: 'bottom',
+                    type: 'success',
+                    duration: 1500,
+                });
             }
         } catch (e) {
             console.log(e);

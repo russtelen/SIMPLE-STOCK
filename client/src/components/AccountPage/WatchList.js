@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { List } from 'react-native-paper';
-import { API_KEY } from '@env';
+// import { API_KEY } from '@env';
 import finnhub from '../../api/Finnub';
 import { AntDesign } from '@expo/vector-icons';
 import { deleteWatchlist } from '../../network';
+import { Toast } from 'native-base';
 
 const WatchList = ({ watchlist }) => {
     const [currentPrice, setCurrentPrice] = useState('');
@@ -14,7 +15,7 @@ const WatchList = ({ watchlist }) => {
         (async () => {
             try {
                 const response = await finnhub.get(
-                    `quote?symbol=${watchlist.symbol}&token=${API_KEY}`
+                    `quote?symbol=${watchlist.symbol}&token=c1jfqff48v6q1q0kpsi0`
                 );
                 setCurrentPrice(response.data.c);
             } catch (error) {
@@ -27,10 +28,15 @@ const WatchList = ({ watchlist }) => {
     const addCliked = async (stockId) => {
         try {
             if (isAdded == true) {
-                console.log(stockId);
                 const res = await deleteWatchlist(stockId);
-                console.log(res);
-                res ? alert(res.message) : null;
+                res
+                    ? Toast.show({
+                          text: res.message,
+                          position: 'bottom',
+                          type: 'success',
+                          duration: 1500,
+                      })
+                    : null;
             }
             setIsAdded((prev) => !prev);
         } catch (e) {
