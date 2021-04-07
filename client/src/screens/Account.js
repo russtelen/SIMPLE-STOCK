@@ -33,7 +33,6 @@ const Account = ({ setToken }) => {
             setUser(result.user);
             setWatchlists(result.user.watchlist);
             setTransactions(result.user.transactions);
-            console.log(watchlists);
         })();
     }, []);
 
