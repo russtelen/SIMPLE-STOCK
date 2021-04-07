@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { Container, Content, List, ListItem, Body } from 'native-base';
-import { getUser, getPosition } from '../../network';
-import StockItems from './StockItems';
+import { getUser, getPosition } from '../network';
+import StockItems from '../components/DashboardPage/StockItems';
 
 const Dashboard = ({ user }) => {
     const [postionResults, setPostionResults] = useState([]);
     const [rerender, setRerender] = useState(false);
-    const [userInfo, setUserInfo] = useState({});
+    const [positionDidLoad, setPositionDidLoad] = useState(false);
 
     useEffect(() => {
         (async () => {
             const postionResults = await getPosition();
-            const result = await getUser();
-            setUserInfo(result.user);
+            postionResults ? setPositionDidLoad(true) : null;
             setPostionResults(postionResults?.positions);
         })();
     }, [rerender]);
@@ -28,7 +27,7 @@ const Dashboard = ({ user }) => {
                             <Body style={styles.body}>
                                 <Text style={styles.textHeader}>Ticker</Text>
                                 <Text style={styles.textHeader}>Price</Text>
-                                <Text style={styles.textHeader}>QTY</Text>
+                                <Text style={styles.qtyText}>QTY</Text>
                                 <Text style={styles.textHeader}>Total</Text>
                                 <Text style={styles.textHeader}>
                                     Current price
@@ -37,23 +36,32 @@ const Dashboard = ({ user }) => {
                                 <Text style={styles.textHeader}>Option</Text>
                             </Body>
                         </ListItem>
-                        {postionResults?.length > 0 ? (
+                        {positionDidLoad ? (
                             <>
-                                {postionResults.map((postionResult) => (
-                                    <StockItems
-                                        postionResult={postionResult}
-                                        setRerender={setRerender}
-                                        key={postionResult.symbol}
-                                    />
-                                ))}
+                                {postionResults.length > 0 ? (
+                                    <>
+                                        {postionResults.map((postionResult) => (
+                                            <StockItems
+                                                postionResult={postionResult}
+                                                setRerender={setRerender}
+                                                key={postionResult.symbol}
+                                            />
+                                        ))}
+                                    </>
+                                ) : (
+                                    <Text style={styles.noTransText}>
+                                        You have no stocks!
+                                    </Text>
+                                )}
                             </>
                         ) : (
-                            <Text style={styles.noTransText}>
-                                You have no transaction!
-                            </Text>
+                            <ActivityIndicator
+                                style={styles.loadingIcon}
+                                size="large"
+                                color="#FF8C00"
+                            />
                         )}
                     </List>
-                    <Text>Portfolio Value: ${userInfo?.initialCash}</Text>
                 </Content>
             </Container>
         </ScrollView>
@@ -79,6 +87,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 13,
+    },
+    loadingIcon: {
+        marginTop: 30,
+    },
+    qtyText: {
+        width: '8%',
     },
 });
 
