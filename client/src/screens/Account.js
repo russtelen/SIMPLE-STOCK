@@ -33,8 +33,17 @@ const Account = ({ setToken }) => {
             setUser(result.user);
             setWatchlists(result.user.watchlist);
             setTransactions(result.user.transactions);
+            console.log(watchlists);
         })();
     }, []);
+
+    // useEffect(() => {
+    //     (async () => {
+    //         const result = await getUser();
+    //         setUser(result.user);
+    //         console.log(watchlists);
+    //     })();
+    // }, [user?.watchlist?.length]);
 
     return (
         <ScrollView>

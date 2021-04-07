@@ -50,7 +50,7 @@ const Dashboard = ({ user }) => {
                                     </>
                                 ) : (
                                     <Text style={styles.noTransText}>
-                                        You have no transaction!
+                                        You have no stocks!
                                     </Text>
                                 )}
                             </>

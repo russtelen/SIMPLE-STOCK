@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import finnhub from '../api/Finnub';
 // import { API_KEY } from '@env';
-import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { API_KEY } from 'dotenv';
-import { addToWatchlist, getUser, deleteWatchlist } from '../network';
+import { addToWatchlist, getUser } from '../network';
 
 export default function Search() {
     const [results, setResults] = useState();
@@ -21,7 +21,27 @@ export default function Search() {
     const [userWatchList, setUserWatchList] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
 
-    // fetch user watchlist
+    //click the like button to add to watchlist
+    const likeCliked = async (data) => {
+        try {
+            const index = userWatchList.findIndex(
+                (watchList) => watchList.symbol == term
+            );
+            //check if ticker already in the watchlist
+            if (index == -1) {
+                const res = await addToWatchlist(data);
+                setIsAdded((prev) => !prev);
+                alert(res.message);
+                console.log(isAdded);
+            } else {
+                alert(`You have already added ${term} into the watchlist!`);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    //fetch user watchlist
     useEffect(() => {
         (async () => {
             const result = await getUser();
@@ -29,45 +49,18 @@ export default function Search() {
         })();
     }, [isAdded]);
 
-    //fetch current price from finnhib
     const searchAPI = async (data) => {
+        // console.log('term', term);
         const response = await finnhub.get(
             `quote?symbol=${data}&token=${API_KEY}`
         );
+        // console.log('results', results);
         setResults(response.data.c);
-
-        //check if ticker already in the watchlist
-        const index = userWatchList.findIndex(
-            (watchList) => watchList.symbol == term
-        );
-        if (index !== -1) {
-            setIsAdded(true);
-        } else {
-            setIsAdded(false);
-        }
     };
 
-    useEffect(() => {}, [results]);
-
-    //click the like button to add to watchlist
-    const addCliked = async (data) => {
-        try {
-            // if ticker has not been added  -> add to watchlist
-            if (isAdded == false) {
-                const res = await addToWatchlist(data);
-                res ? alert(res.message) : null;
-            } else {
-                alert('have been deleted only watchlist');
-                // const deleteRes = await deleteWatchlist({
-                //     symbol: term,
-                // stockId: w._id,
-                // });
-            }
-            setIsAdded((prev) => !prev);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    useEffect(() => {
+        // console.log('results', results);
+    }, [results]);
 
     return (
         <>
@@ -94,31 +87,20 @@ export default function Search() {
                         <View style={{ margin: 5 }}>
                             <Button styles={styles.button} title="SELL" />
                         </View>
-
                         <TouchableOpacity
                             onPress={() =>
-                                addCliked({
+                                likeCliked({
                                     symbol: term,
                                     currentPrice: results,
-                                    // stockId: w._id,
                                 })
                             }
                         >
-                            {isAdded ? (
-                                <AntDesign
-                                    name="heart"
-                                    size={24}
-                                    color="#f42f4c"
-                                    style={{ marginLeft: 20 }}
-                                />
-                            ) : (
-                                <AntDesign
-                                    name="hearto"
-                                    size={24}
-                                    color="#f42f4c"
-                                    style={{ marginLeft: 20 }}
-                                />
-                            )}
+                            <Entypo
+                                name="add-to-list"
+                                size={24}
+                                color="black"
+                                style={{ marginLeft: 20 }}
+                            ></Entypo>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -183,11 +165,13 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     icon: {
+        // flex: 1,
         marginHorizontal: 15,
         fontSize: 50,
         marginHorizontal: 15,
     },
     button: {
+        // flex: 1,
         margin: 15,
     },
 });

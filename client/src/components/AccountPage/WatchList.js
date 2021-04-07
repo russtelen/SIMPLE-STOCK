@@ -3,7 +3,7 @@ import { List } from 'react-native-paper';
 import { API_KEY } from 'dotenv';
 import finnhub from '../../api/Finnub';
 import { AntDesign } from '@expo/vector-icons';
-import { addToWatchlist } from '../../network';
+import { deleteWatchlist } from '../../network';
 
 const WatchList = ({ watchlist }) => {
     const [currentPrice, setCurrentPrice] = useState('');
@@ -24,10 +24,13 @@ const WatchList = ({ watchlist }) => {
     }, [currentPrice]);
 
     //click the like button to add to watchlist
-    const addCliked = async () => {
+    const addCliked = async (stockId) => {
         try {
             if (isAdded == true) {
-                alert('have been deleted only watchlist');
+                console.log(stockId);
+                const res = await deleteWatchlist(stockId);
+                console.log(res);
+                res ? alert(res.message) : null;
             }
             setIsAdded((prev) => !prev);
         } catch (e) {
@@ -47,7 +50,7 @@ const WatchList = ({ watchlist }) => {
                             size={24}
                             color="#f42f4c"
                             style={{ margin: '2%' }}
-                            onPress={addCliked}
+                            onPress={() => addCliked(watchlist._id)}
                         ></AntDesign>
                     )}
                 />
