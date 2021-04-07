@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, StyleSheet, SafeAreaView} from 'react-native';
 import finnhub from '../api/Finnub'
-//import { API_KEY } from "dotenv";
+import { API_KEY } from "dotenv";
 import {EvilIcons} from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import { Button } from 'react-native-elements';
@@ -18,8 +18,8 @@ export default function Search() {
 
     const searchAPI = async (data) => {
         console.log("term", term)        
-        //const response = await finnhub.get(`quote?symbol=${data}&token=${API_KEY}`)       
-        const response = await finnhub.get(`quote?symbol=${data}&token=c1he28v48v6qtr46ae90`)    
+        const response = await finnhub.get(`quote?symbol=${data}&token=${API_KEY}`)       
+        //const response = await finnhub.get(`quote?symbol=${data}&token=c1he28v48v6qtr46ae90`)    
         //console.log("results", results) 
         setResults(+(response.data.c))         
     };  
