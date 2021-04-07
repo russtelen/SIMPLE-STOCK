@@ -10,6 +10,7 @@ import { stockTransaction } from '../network';
 export default function Search() {
     const [results, setResults] = useState();
     const [term, setTerm] = useState();
+    const [numberOfShares, setNumberOfShares] = useState(1);
 
     useEffect( () => {           
         console.log("results", results)              
@@ -65,12 +66,23 @@ export default function Search() {
                 </View>
                 <View style={styles.section2}> 
                     <Text style={{margin: 15}}> ${results}</Text>
+                    <View style={styles.numberOfShares}>
+                        <TextInput
+                            placeholder="# of shares"
+                            style={styles.textInputBox}
+                            clearButtonMode="always"
+                            type="number"
+                            keyboardType="number-pad"
+                            value={numberOfShares}
+                            onChangeText={(event) => setNumberOfShares(event)}
+                        ></TextInput>
+                    </View>
                     <View style={{margin: 5}}>
                         <Button buttonStyle={{backgroundColor:"#ffb347"}} styles={styles.button}   title="BUY"
                             onPress={() =>
                                 handleBuy({
                                     symbol: term,
-                                    numShares: 1,
+                                    numShares: numberOfShares,
                                     quotePrice: -(results),
                                 })
                             }
@@ -81,7 +93,7 @@ export default function Search() {
                             onPress={() =>
                                 handleSell({
                                     symbol: term,
-                                    numShares: 1,
+                                    numShares: numberOfShares,
                                     quotePrice: (results)
                                 })
                             }
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         borderWidth: 1,
         borderColor: '#20232a',
         borderRadius: 6,
@@ -128,10 +140,22 @@ const styles = StyleSheet.create({
         display:'flex',
          flexDirection: 'row',
          justifyContent:'center',         
-         alignItems: 'center',  
-        
+         alignItems: 'center',          
          width: 300,
          height: 100         
+     },
+
+     numberOfShares: {
+        display:'flex',
+         flexDirection: 'row',
+         justifyContent:'center',         
+         alignItems: 'center',
+         borderWidth: 1,
+         borderColor: '#20232a',
+         borderRadius: 6,
+         width: 78,
+         height: 30,
+         marginRight: 8    
      },            
 
     input: {
