@@ -83,7 +83,7 @@ export default function Search() {
                         <Button buttonStyle={{backgroundColor:"#ffb347"}} styles={styles.button}   title="BUY"
                             onPress={() =>
                                 handleBuy({
-                                    symbol: term,
+                                    symbol: ticker,
                                     numShares: numberOfShares,
                                     quotePrice: -(results),
                                 })
@@ -94,7 +94,7 @@ export default function Search() {
                         <Button buttonStyle={{backgroundColor:"#ffb347"}}  title="SELL"
                             onPress={() =>
                                 handleSell({
-                                    symbol: term,
+                                    symbol: ticker,
                                     numShares: numberOfShares,
                                     quotePrice: (results)
                                 })
