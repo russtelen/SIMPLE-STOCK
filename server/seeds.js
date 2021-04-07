@@ -78,7 +78,7 @@ const seedDb = async () => {
   let transaction4 = new Transaction({
     symbol: "GME",
     numShares: 30,
-    quotePrice: -29.1,
+    quotePrice: -200,
     transactionDateTime: 1617145438869,
   })
 
@@ -86,6 +86,13 @@ const seedDb = async () => {
     symbol: "GME",
     numShares: 24,
     quotePrice: 15.1,
+    transactionDateTime: 1617145438869,
+  })
+
+  let transaction6 = new Transaction({
+    symbol: "GME",
+    numShares: 2,
+    quotePrice: -190,
     transactionDateTime: 1617145438869,
   })
 
@@ -125,6 +132,7 @@ const seedDb = async () => {
   await transaction3.save()
   await transaction4.save()
   await transaction5.save()
+  await transaction6.save()
 
   // Push transactions to users
   //-------------------
@@ -160,7 +168,7 @@ const seedDb = async () => {
     {
       $push: {
         transactions: {
-          $each: [transaction1, transaction2, transaction3, transaction4],
+          $each: [transaction1, transaction2, transaction3, transaction4, transaction5, transaction6],
         },
         watchlist: {
           $each: [stock1, stock4],
@@ -179,6 +187,7 @@ const seedDb = async () => {
   user3.initialCash += transaction3.numShares * transaction3.quotePrice
   user3.initialCash += transaction4.numShares * transaction4.quotePrice
   user3.initialCash += transaction5.numShares * transaction5.quotePrice
+  user3.initialCash += transaction6.numShares * transaction6.quotePrice
   await user1.save()
   await user2.save()
   await user3.save()

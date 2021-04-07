@@ -118,19 +118,26 @@ module.exports.getPortfolio = async (req, res) => {
           totalPrice : t.numShares * t.quotePrice
       }));
 
+      // tQ: add up all purchases
       let tradesBySymbol = []
       allTrades.reduce(function(r, val) {
           if (!r[val.symbol]) {
               r[val.symbol] = { 
                   symbol: val.symbol, 
-                  numSharesTotal: 0,
-                  bottomLine: 0
+                  totalSharesPurchased: 0,
+                  totalShares: 0,
+                  totalPricePurchased: 0
               };
               tradesBySymbol.push(r[val.symbol])
           }
           
-          r[val.symbol].numSharesTotal += val.numShares;
-          r[val.symbol].bottomLine += val.totalPrice;
+          if (val.totalPrice < 0) {
+            r[val.symbol].totalSharesPurchased += val.numShares
+            r[val.symbol].totalShares += val.numShares
+            r[val.symbol].totalPricePurchased += -val.totalPrice
+          } else {
+            r[val.symbol].totalShares += -val.numShares
+          }
 
           return r;
       }, {});
@@ -139,23 +146,26 @@ module.exports.getPortfolio = async (req, res) => {
       //     query finnhub API for current price & build P/L based on it
       let positions = []
       const processPosition = async (t) => {
+        console.log(t)
         const currPrice = await getCurrentPrice(t.symbol)
-        
-        const avgPrice = t.bottomLine / t.numSharesTotal
+
+        // tQ: avg price is total amount spent on stocks purchases divided by total stocks
+        const avgPrice = t.totalPricePurchased / t.totalSharesPurchased
         
         return (
           {
             symbol: t.symbol,
-            numSharesTotal: t.numSharesTotal,
+            numSharesTotal: t.totalShares,
             avgPricePerShare: avgPrice,
             currPrice: currPrice,
-            profitLoss: currPrice * t.numSharesTotal - avgPrice * t.numSharesTotal
+            profitLoss: currPrice * t.totalShares - avgPrice * t.totalShares
           }
         )
       }
 
       for (const t of tradesBySymbol) { 
-        positions.push(await processPosition(t))
+        // tQ: only add valid positions (none where all stocks were sold)
+        if (t.totalShares > 0) positions.push(await processPosition(t))
       }
 
       res.send({positions})
