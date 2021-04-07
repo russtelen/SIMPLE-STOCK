@@ -11,6 +11,7 @@ export default function Search() {
     const [results, setResults] = useState();
     const [term, setTerm] = useState();
     const [numberOfShares, setNumberOfShares] = useState(1);
+    const [ticker, setTicker] = useState('');
 
     useEffect( () => {           
         console.log("results", results)              
@@ -18,10 +19,10 @@ export default function Search() {
 
     const searchAPI = async (data) => {
         console.log("term", term)        
-        const response = await finnhub.get(`quote?symbol=${data}&token=${API_KEY}`)       
-        //const response = await finnhub.get(`quote?symbol=${data}&token=c1he28v48v6qtr46ae90`)    
+        const response = await finnhub.get(`quote?symbol=${data}&token=${API_KEY}`)                   
         //console.log("results", results) 
-        setResults(+(response.data.c))         
+        setResults(response.data.c)
+        setTicker(term)         
     };  
 
     //handling buy
@@ -64,7 +65,8 @@ export default function Search() {
                     <TextInput styles={styles.input} placeholder="Enter stock index here" onChangeText={(event) => setTerm(event)} />
                     <Button buttonStyle={{backgroundColor:"#ffb347"}} styles={styles.button} title="SEARCH" onPress={() => searchAPI(term)}/>
                 </View>
-                <View style={styles.section2}> 
+                <View style={styles.section2}>
+                    <Text style={{margin: 15}}> {ticker}</Text> 
                     <Text style={{margin: 15}}> ${results}</Text>
                     <View style={styles.numberOfShares}>
                         <TextInput
